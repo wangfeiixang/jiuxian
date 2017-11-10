@@ -1,0 +1,66 @@
+
+
+* {vertical-align:middle;
+  border:0;margin:0rem;
+  padding:0rem;
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  box-sizing:border-box;
+  -webkit-touch-callout: none;
+}
+html,body{
+  width:100%;
+  height:100%;
+  font-size: 12px;
+  font-family: "华文细黑","黑体","Microsoft YaHei";
+  color: #333;
+}
+
+h1,h2,h3,h4,h5,h6{
+  font-weight:normal;
+}
+
+html, input[type='text'] {
+  -webkit-text-size-adjust: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+caption,th,td{
+  text-align:center;
+  font-weight:normal;
+  vertical-align:middle;
+  word-wrap:break-word
+}
+q,blockquote{
+  quotes:none
+}
+
+q:before,q:after,blockquote:before,blockquote:after{
+  content:"";content:none
+}
+
+ol,ul,li {
+  list-style:none
+}
+
+a {
+  display: inline-block;
+  outline: none;
+  text-decoration: none;
+  -webkit-tap-highlight-color:transparent;
+}
+
+img {
+  border: none;
+  vertical-align: middle;
+}
+
+table {
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+input, textarea {
+  outline: none;
+  border: none;
+}

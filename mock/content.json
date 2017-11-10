@@ -1,0 +1,16 @@
+{
+	"classify":[
+		"/static/images/01.jpg","/static/images/02.jpg","/static/images/03.jpg","/static/images/04.jpg","/static/images/05.jpg","/static/images/06.jpg","/static/images/07.jpg","/static/images/08.jpg",
+		"/static/images/09.jpg","/static/images/10.jpg"
+	],
+	"middle":[
+		"/static/images/11.jpg","/static/images/12.jpg","/static/images/13.jpg"
+	],
+	"news":{
+		"images":"/static/images/07.png",
+		"data":[
+			"11.1金六福品牌日获奖信息公布","11.11白酒大牌会场 领券满1999减200 点击查看!","APP首单满100送100活动规则 点击查看!"
+		]
+	}
+		
+}
