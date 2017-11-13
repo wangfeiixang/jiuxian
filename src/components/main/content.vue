@@ -6,44 +6,109 @@
 		</ul>
 		<p class="img">
 			<img v-for="(item,key,index) in middle" v-bind:key="item.id"  :src="item" alt="">
-			<!-- <img src="../../assets/img/12.jpg" alt="">
-			<img src="../../assets/img/13.jpg" alt=""> -->
 		</p>
 		<div class="news" >
 			<a ><img :src="images" alt=""></a>
 			<div class="swiper-container swiper-news">
 				<div class="swiper-wrapper">
-					<div class="swiper-slide" v-for="(items,key,index) in data" v-bind:key="items.id"> <p v-text="items"></p> </div>
+					<div class="swiper-slide swiper-no-swiping" v-for="(items,key,index) in data" v-bind:key="items.id"> <p v-text="items"></p> </div>
 				</div>
 			</div>
 		</div>
 		<div class="seckill">
 			<h3>掌上秒拍</h3>
-			<p>距结束
-				<span class="hours"></span>:<span class="minutes"></span>:
-				<span class="seconds"></span>
+			<p id="time">距开始
+				<span v-show="timeShow">
+					<span class="hours"></span>:<span class="minutes"></span>:
+					<span class="seconds"></span>
+				</span>
+				
 			</p>
 			<p class="more">
 				更多商品的你来抢!<i></i>
 			</p>
 		</div>
+		<div class="spikeWrap" id="container">
+			<div class="swiper-container swiper-goods">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide" v-for="(item,key,index) in detail" v-bind:key="item.id">
+						<img v-lazy.container="item.proImg" alt="">
+						<span class="name">{{item.proName}}</span>
+						<span class="new-price">¥{{item.proPrice}}</span>
+						<span class="old-price">¥{{item.jxPrice}}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<ul>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+		</ul>	
 		 
 	</div>
 </template>
 
 <script>
 	import Vue from 'vue'
+
+	import { Lazyload } from 'mint-ui';
+
+	Vue.use(Lazyload);
 	
 	export default {
 		data(){
 			return{
 				swiperNews:null,
+				swiperGoods:null,
+				timeShow:true,
+				detail:null,
 				list:null,
 				classify:null,
 				middle:null,
 				news:null,
 				images:null,
 				data:null,
+				timestamp:new Date().getTime(),
 				time:{
 					timer:null,
 					now:null,
@@ -51,69 +116,97 @@
 					hour:null,
 					minute:null,
 					second:null
-				}
+				},
+				pagenum:1,
+				tabnum:1,
 					
 
 			}
 		},
 		mounted(){
 
-				this.axios('content.json',1);
-
-				clearInterval(this.time.timer);
-				//倒计时开启
-				// this.time.timer=setInterval(()=>{
-						this.time.now = new Date().getTime(); 
-						this.countDown()
-				// },1000)
-				
-				// this.axios('https://m.jiuxian.com/m_v1/promote/qgajax.do?t=1510299473058&pagenum=1&tabnum=1');
-				
-
+			this.axios('content.json',1);
+			clearInterval(this.time.timer);
 			
+			//倒计时开启
+			this.time.timer=setInterval(()=>{
+					this.time.now = new Date().getTime(); 
+					this.countDown()
+			},1000)
+
+			this.axios('https://m.jiuxian.com/m_v1/promote/qgajax.do?t='+this.timestamp+'&pagenum='+this.pagenum+'&tabnum='+this.tabnum,3);
+			
+			
+
 			 
 		},
 		methods:{
 			countDown(){//倒计时
 				
 				let dateYear =  new Date().toLocaleString();//截取日期
-					dateYear=dateYear.replace("/","-").replace("/","-").slice(0,10)
+					dateYear=dateYear.replace("/","-").replace("/","-").slice(0,10);
 
 				let dateHour = new Date().getHours();//小时
-					dateHour = dateHour>10?dateHour:"0"+dateHour;
-					
-				let dateMinute = new Date().getMinutes();//分钟
-					dateMinute = dateMinute>10?dateMinute:"0"+dateMinute;
 
-				let dateSeconds = new Date().getSeconds();//秒
-					dateSeconds = dateSeconds>10?dateSeconds:"0"+dateSeconds;
+					if ( dateHour<=16 ) {
+						dateHour=16;
+					}
 
-				let dateTime = dateYear+"  "+dateHour+":"+dateMinute+":"+dateSeconds;//拼接字符串时间
+					if ( 16<dateHour && dateHour<=18 ) {
+						dateHour=18;
+					}
 
-				console.log( dateTime )
-				
-				var endDate = new Date(dateTime).getTime(); 
-				console.log( endDate )
-				
-				var leftTime = parseInt(endDate-this.time.now)/1000;
-				this.time.day=Math.floor(leftTime/(60*60*24)); 
-				this.time.hour=Math.floor((leftTime-this.time.day*24*60*60)/3600); 
-				this.time.minute=Math.floor((leftTime-this.time.day*24*60*60-this.time.hour*3600)/60); 
-				this.time.second=Math.floor(leftTime-this.time.day*24*60*60-this.time.hour*3600-this.time.minute*60); 
+					if ( 18<dateHour && dateHour<=20 ) {
+						dateHour=20;
+					}
 
-				this.time.hour=this.time.hour<10?"0"+this.time.hour:this.time.hour;
-				this.time.minute = this.time.minute<10?"0"+this.time.minute:this.time.minute;
-				this.time.second = this.time.second<10?"0"+this.time.second:this.time.second;
-				
+					if (20<dateHour && dateHour<=22 ) {
+						dateHour=22;
+					}
+
+					if ( 22<dateHour && dateHour<=24 ) {
+						dateHour=24;
+					}
+
+				let dateMinute = "00";//分钟
+					// dateMinute = dateMinute>10?dateMinute:"0"+dateMinute;
+				let dateSeconds = "00";//秒
+					// dateSeconds = dateSeconds>10?dateSeconds:"0"+dateSeconds;
+
+				let dateTime = dateYear+":"+dateHour+":"+dateMinute+":"+dateSeconds;//拼接字符串时间
+
+				let endDate = new Date(dateTime).getTime(); 
+				let endTime = document.getElementById("time");
 				let hours = document.getElementsByClassName("hours")[0];
 				let minutes = document.getElementsByClassName("minutes")[0];
 				let seconds = document.getElementsByClassName("seconds")[0];
-				// console.log( this.time.hour,this.time.minute,this.time.second )
-				hours.innerHTML = this.time.hour;
-				minutes.innerHTML = this.time.minute;
-				seconds.innerHTML = this.time.second;
+				// console.log( dateTime )
+
+				if ( endDate < this.time.now ) {//判断活动是否结束
+					this.timeShow = false;
+					endTime.innerHTML = "已结束"
+				}else{
+					//倒计时转换
+					this.timeShow = true;
+					var leftTime = parseInt(endDate-this.time.now)/1000;
+					this.time.day=Math.floor(leftTime/(60*60*24)); 
+					this.time.hour=Math.floor((leftTime-this.time.day*24*60*60)/3600); 
+					this.time.minute=Math.floor((leftTime-this.time.day*24*60*60-this.time.hour*3600)/60); 
+					this.time.second=Math.floor(leftTime-this.time.day*24*60*60-this.time.hour*3600-this.time.minute*60); 
+
+					this.time.hour=this.time.hour<10?"0"+this.time.hour:this.time.hour;
+					this.time.minute = this.time.minute<10?"0"+this.time.minute:this.time.minute;
+					this.time.second = this.time.second<10?"0"+this.time.second:this.time.second;
+					
+					// console.log( this.time.hour,this.time.minute,this.time.second )
+					hours.innerHTML = this.time.hour;
+					minutes.innerHTML = this.time.minute;
+					seconds.innerHTML = this.time.second;
+					
+					// console.log( "天数"+this.time.day+"小时:"+this.time.hour+"分钟:"+this.time.minute+"秒:"+this.time.second )
+				}
 				
-				// console.log( "天数"+this.time.day+"小时:"+this.time.hour+"分钟:"+this.time.minute+"秒:"+this.time.second )
+				
 			},
 			axios(url,type){
 				let that = this;
@@ -132,12 +225,34 @@
 									direction: 'vertical',
 									spaceBetween: 0,
 									autoplay: 1000,
+									noSwiping : true,
+									autoplayDisableOnInteraction: false,
 									loop: true
 								});
 							},0)
 
 						}else{
-							console.log( data.data )
+
+							if ( type==3 ) {
+								that.detail = data.data.killProList; 
+							} 
+							
+							if ( type==2 ) {
+								data.data.killProList.forEach( (item,i)=>{
+									// console.log(item)
+									that.detail.push(item)
+								})
+								console.log( "第二次请求触发",that.detail )
+								
+							} 
+
+							setTimeout( ()=>{
+								that.swiperGoods = new Swiper('.swiper-goods', {
+									slidesPerView: 'auto',
+									spaceBetween: 0
+								});
+								that.swiperGoods.update();
+							},0)
 						}
 						
 						
@@ -145,16 +260,40 @@
 					.catch( (error)=>{
 						console.log(error)
 					})
+			},
+			sliding(){
+				this.pagenum ++;
+				if ( this.pagenum==2 ) {
+					// console.log( this.pagenum )
+					this.axios('https://m.jiuxian.com/m_v1/promote/qgajax.do?t='+this.timestamp+'&pagenum='+this.pagenum+'&tabnum='+this.tabnum,2);
+				} 
+				
+				
 			}
 		},
 		watch:{
-			/* time:{
+			swiperGoods:{
 				deep:true,
 				handler(newVal,oldVal){
+					// console.log('正在监听',newVal.activeIndex,this.detail.length)
+					if ( this.detail.length<=10 && newVal.activeIndex==6 ) {
+						let that = this;
+						setTimeout( ()=>{
+							that.sliding();
+						},1000)
+						
+					}
+					
+					
 					
 				}
-			} */
-
+			},
+			detail:{
+				deep:true,
+				handler(newVal,oldVal){
+					// console.log('正在监听detail',newVal.length)
+				}
+			}
 		}
 		
 		
@@ -164,7 +303,7 @@
  <style lang="scss" scoped>
 	.content{
 		width:100%;
-		overflow: hidden;
+		height: 100%;
 		ul{
 			width:100%;
 			overflow: hidden;
@@ -218,16 +357,8 @@
 				.swiper-slide {
 					height: 100%;
 					text-align: center;
-					display: -ms-flexbox;
-					display: -webkit-flex;
 					display: flex;
-					-webkit-box-pack: center;
-					-ms-flex-pack: center;
-					-webkit-justify-content: center;
 					justify-content: center;
-					-webkit-box-align: center;
-					-ms-flex-align: center;
-					-webkit-align-items: center;
 					align-items: center;
 					p{
 						width:23.5rem;
@@ -279,6 +410,55 @@
 					height: 13px;
 					background: url(../../assets/img/06.png) no-repeat  -88px 0px;
 					background-size: 200px 73px;
+				}
+			}
+		}
+
+		.spikeWrap{
+			.swiper-container {
+				width: 100%;
+				height: 100%;
+			}
+			.swiper-slide {
+				text-align: center;
+				background: #fff;
+				padding: .5rem;
+				width: 28%;
+				img{
+					display: block;
+					width:100%;
+				}
+
+				image[lazy=loading] {
+					display: block;
+					width:100%;
+					background: gold;
+				}
+
+				span{
+					display: block;
+					width: 100%;
+					text-align: left;
+				}
+
+				.name{
+					font-size:1.2rem;
+					height: 3.2rem;
+					width: 9rem;
+					overflow: hidden;
+					line-height: 1.6rem;
+				}
+
+				.new-price{
+					color: #fc5a5a;
+					font-size: 1.4rem;
+					line-height: 1.4rem;
+					margin-top: 5px;
+				}
+
+				.old-price{
+					color: #999999;
+					text-decoration: line-through;
 				}
 			}
 		}

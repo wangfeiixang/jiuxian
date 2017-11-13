@@ -1,32 +1,37 @@
 <template>
-	<header>
-		<span class="logo"></span>
-		<div class="search">
-			<i></i>
-			<input type="text">
-			<span>搜索</span>
-		</div>
-		
-	</header>
+		<header  :class="[scroll>40?'fixed shake':'static bounceIn','animated']">
+			<span class="logo"></span>
+			<div class="search">
+				<i></i>
+				<input type="text">
+				<span>搜索</span>
+			</div>
+		</header>
 </template>
 
 <script>
 	import Vue from 'vue'
-	
 	export default {
+		props:["scroll"],
 		data(){
 			return{
-				
+
 			}
 		},
 		mounted(){
-//			console.log(111)
 //			console.log( this.$axios )
-			
 		},
+		methods:{
+
+		},
+
 		
 		
 	}
+
+	 
+
+	
 </script>
 
  <style lang="scss" scoped>
@@ -37,6 +42,7 @@
 			color:#fff;
 			padding: 6px 1rem;
 			z-index: 10000;
+
 			.logo{
 				display: inline-block;
 				width: 5.7rem;
@@ -74,6 +80,17 @@
 				}
 
 			}
+	}
+
+	.static{
+		position: absolute;
+		opacity: 1;
+		background:none;
+	}
+	.fixed{
+		position: fixed;
+		 background: #e5383b;
+   		 opacity: 0.87;
 	}
 
 </style>

@@ -29,7 +29,7 @@ export default {
 	}
 
 	.swiper-container-horizontal>.swiper-pagination-bullets .swiper-pagination-bullet {
-		margin: 0 3px ;
+		margin: 0 3px;
 		
 	}
 	.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{

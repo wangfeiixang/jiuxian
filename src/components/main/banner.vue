@@ -1,7 +1,7 @@
 <template>
 	<div class="swiper-container swiper-banner">
         <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="item in list"><img :src="item" alt=""></div>
+            <div class="swiper-slide" v-for="(item,key,index) in list" :key="item.id"><img :src="item" alt=""></div>
         </div>
         <div class="swiper-pagination"></div>
     </div>
@@ -29,6 +29,7 @@
 							pagination: '.swiper-pagination',
 							slidesPerView: 1,
 							paginationClickable: true,
+							autoplayDisableOnInteraction: false,
 							spaceBetween: 0,
 							autoplay: 1500,
 							loop: true
@@ -56,17 +57,8 @@
 			text-align: center;
 			font-size: 18px;
 			background: #fff;
-			display: -webkit-box;
-			display: -ms-flexbox;
-			display: -webkit-flex;
 			display: flex;
-			-webkit-box-pack: center;
-			-ms-flex-pack: center;
-			-webkit-justify-content: center;
 			justify-content: center;
-			-webkit-box-align: center;
-			-ms-flex-align: center;
-			-webkit-align-items: center;
 			align-items: center;
 			img{
 				width: 100%;
