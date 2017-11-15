@@ -3,6 +3,8 @@
 		<my-header :scroll="scroll"></my-header>	
 		<my-banner></my-banner>	
 		<my-content></my-content>
+		<my-meeting></my-meeting>
+		<my-infinite></my-infinite>
 		<my-footer></my-footer>
 	</div>
 </template>
@@ -12,6 +14,8 @@
 	import myHeader from './header'
 	import myBanner from './banner'
 	import myContent from './content'
+	import myMeeting from './paymeeting'
+	import myInfinite from './infinite'
 	
 	let Main = {
 		data(){
@@ -34,6 +38,8 @@
 			myHeader,
 			myBanner,
 			myContent,
+			myMeeting,
+			myInfinite
 			
 		}
 		
@@ -41,10 +47,6 @@
 
 	export default Main;
 
-	/* Vue.directive('scroll',function(el,val){
-		// console.log(Main.methods.menu)
-		el.addEventListener('scroll',Main.methods.menu)
-	}) */
 </script>
 
  <style lang="scss" scoped>

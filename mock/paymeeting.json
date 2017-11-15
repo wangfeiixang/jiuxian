@@ -1,0 +1,40 @@
+{
+	"meeting":[
+		"/static/images/15.jpg","/static/images/16.jpg","/static/images/17.jpg","/static/images/18.jpg","/static/images/19.jpg","/static/images/20.jpg","/static/images/21.jpg"
+	],
+	"pictureBox":[
+		"/static/images/22.jpg","/static/images/23.jpg","/static/images/24.jpg"
+	],
+	"wineBox":[
+		"/static/images/25.jpg","/static/images/26.jpg","/static/images/27.jpg",
+		"/static/images/28.jpg","/static/images/29.jpg","/static/images/30.jpg",
+		"/static/images/31.jpg"
+	],
+	"classify":[
+		{
+			"title":"/static/images/32.jpg",
+			"img":[
+				"/static/images/33.jpg","/static/images/34.jpg","/static/images/35.jpg","/static/images/36.jpg","/static/images/37.jpg"
+			]
+		}
+	],
+	"spirit":[
+		{
+			"title":"/static/images/38.jpg",
+			"big_img":"/static/images/39.jpg",
+			"img":["/static/images/40.jpg","/static/images/41.jpg","/static/images/42.jpg"]
+		},
+		{
+			"title":"/static/images/43.jpg",
+			"big_img":"/static/images/44.jpg",
+			"img":["/static/images/45.jpg","/static/images/46.jpg","/static/images/47.jpg"]
+		},
+		{
+			"title":"/static/images/48.jpg",
+			"big_img":"/static/images/49.jpg",
+			"img":["/static/images/50.jpg","/static/images/51.jpg","/static/images/52.jpg"]
+		}
+	]
+	
+		
+}

@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view/>
+		<keep-alive>
+				<router-view/>
+		</keep-alive>
   </div>
 </template>
 
@@ -13,14 +15,14 @@ export default {
 <style lang="scss">
 #app {
 	width: 100%;
-	height: 100%;
+	overflow: hidden;
 }
 
 .swiper-pagination-bullet{
-		width: 6px;
+	width: 6px;
     height: 6px;
     opacity: 0.6;
-		background: #fff ;
+	background: #fff ;
 }
 
 .swiper-pagination-bullet-active {
@@ -35,5 +37,27 @@ export default {
 	.swiper-container-horizontal>.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction{
 			width:95%;
 			bottom:5px;
+	}
+
+	img{
+				transition:all 1s;
+			}
+
+	img[lazy=loading]{
+		width: 100%;
+		animation:fade 1s;
+	}
+
+	img[lazy=loaded]{
+		animation:fade 1s;
+	}
+
+	@keyframes fade {
+		0%{
+			opacity: 0;
+		}
+		100%{
+			opacity: 1;
+		}
 	}
 </style>

@@ -23,7 +23,6 @@
 			this.$axios.get('banner.json')
 			     .then( (data)=>{
 					 that.list = data.data.banner;
-					//  console.log( that.list )
 					 setTimeout( ()=>{
 						 that.swiperBanner = new Swiper('.swiper-banner', {
 							pagination: '.swiper-pagination',

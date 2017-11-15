@@ -28,11 +28,11 @@
 				更多商品的你来抢!<i></i>
 			</p>
 		</div>
-		<div class="spikeWrap" id="container">
+		<div class="spikeWrap" >
 			<div class="swiper-container swiper-goods">
 				<div class="swiper-wrapper">
 					<div class="swiper-slide" v-for="(item,key,index) in detail" v-bind:key="item.id">
-						<img v-lazy.container="item.proImg" alt="">
+						<img v-lazy="item.proImg" alt="">
 						<span class="name">{{item.proName}}</span>
 						<span class="new-price">¥{{item.proPrice}}</span>
 						<span class="old-price">¥{{item.jxPrice}}</span>
@@ -40,61 +40,12 @@
 				</div>
 			</div>
 		</div>
-		<ul>
-			<li>1</li>
-			<li>2</li>
-			<li>3</li>
-			<li>4</li>
-			<li>5</li>
-			<li>6</li>
-			<li>1</li>
-			<li>2</li>
-			<li>3</li>
-			<li>4</li>
-			<li>5</li>
-			<li>6</li>
-			<li>1</li>
-			<li>2</li>
-			<li>3</li>
-			<li>4</li>
-			<li>5</li>
-			<li>6</li>
-			<li>1</li>
-			<li>2</li>
-			<li>3</li>
-			<li>4</li>
-			<li>5</li>
-			<li>6</li>
-			<li>1</li>
-			<li>2</li>
-			<li>3</li>
-			<li>4</li>
-			<li>5</li>
-			<li>6</li>
-			<li>1</li>
-			<li>2</li>
-			<li>3</li>
-			<li>4</li>
-			<li>5</li>
-			<li>6</li>
-			<li>1</li>
-			<li>2</li>
-			<li>3</li>
-			<li>4</li>
-			<li>5</li>
-			<li>6</li>
-		</ul>	
-		 
 	</div>
 </template>
 
 <script>
 	import Vue from 'vue'
 
-	import { Lazyload } from 'mint-ui';
-
-	Vue.use(Lazyload);
-	
 	export default {
 		data(){
 			return{
@@ -127,10 +78,16 @@
 
 			this.axios('content.json',1);
 			clearInterval(this.time.timer);
+
+			 Date.prototype.toLocaleString = function () {
+				return this.getFullYear()+'-'+(this.getMonth()+1)+'-'+this.getDate()+' '+this.getHours()+':'+this.getMinutes()+':'+this.getSeconds()
+			}
 			
 			//倒计时开启
 			this.time.timer=setInterval(()=>{
-					this.time.now = new Date().getTime(); 
+
+					this.time.now = eval("new Date("+ this.getNowFormatDate().replace(/\D+/g,",")+")").getTime();  
+					// alert( this.time.now )
 					this.countDown()
 			},1000)
 
@@ -142,9 +99,10 @@
 		},
 		methods:{
 			countDown(){//倒计时
-				
+
 				let dateYear =  new Date().toLocaleString();//截取日期
-					dateYear=dateYear.replace("/","-").replace("/","-").slice(0,10);
+					dateYear=dateYear.slice(0,10);
+					// alert( dateYear )
 
 				let dateHour = new Date().getHours();//小时
 
@@ -168,14 +126,15 @@
 						dateHour=24;
 					}
 
-				let dateMinute = "00";//分钟
+				let dateMinute = "0";//分钟
 					// dateMinute = dateMinute>10?dateMinute:"0"+dateMinute;
-				let dateSeconds = "00";//秒
+				let dateSeconds = "0";//秒
 					// dateSeconds = dateSeconds>10?dateSeconds:"0"+dateSeconds;
 
-				let dateTime = dateYear+":"+dateHour+":"+dateMinute+":"+dateSeconds;//拼接字符串时间
-
-				let endDate = new Date(dateTime).getTime(); 
+				let dateTime = dateYear+" "+dateHour+":"+dateMinute+":"+dateSeconds;//拼接字符串时间
+				// let endDate = new Date(dateTime).getTime(); 
+				//eval("new Date("+ dateTime.replace(/\D+/g,",")+")").getTime() 兼容苹果手机
+				let endDate = eval("new Date("+ dateTime.replace(/\D+/g,",")+")").getTime(); 
 				let endTime = document.getElementById("time");
 				let hours = document.getElementsByClassName("hours")[0];
 				let minutes = document.getElementsByClassName("minutes")[0];
@@ -184,7 +143,7 @@
 
 				if ( endDate < this.time.now ) {//判断活动是否结束
 					this.timeShow = false;
-					endTime.innerHTML = "已结束"
+					endTime.innerHTML = "正在抢购中"
 				}else{
 					//倒计时转换
 					this.timeShow = true;
@@ -226,7 +185,6 @@
 									spaceBetween: 0,
 									autoplay: 1000,
 									noSwiping : true,
-									autoplayDisableOnInteraction: false,
 									loop: true
 								});
 							},0)
@@ -238,21 +196,23 @@
 							} 
 							
 							if ( type==2 ) {
+
 								data.data.killProList.forEach( (item,i)=>{
 									// console.log(item)
 									that.detail.push(item)
 								})
-								console.log( "第二次请求触发",that.detail )
-								
+								// console.log( "第二次请求触发",that.detail )
 							} 
 
 							setTimeout( ()=>{
 								that.swiperGoods = new Swiper('.swiper-goods', {
-									slidesPerView: 'auto',
-									spaceBetween: 0
+									slidesPerView:'auto',
+									spaceBetween: 0,
+									lazyLoading : true
 								});
-								that.swiperGoods.update();
+								// console.log('swiperGoods update')
 							},0)
+							
 						}
 						
 						
@@ -269,6 +229,25 @@
 				} 
 				
 				
+			},
+			getNowFormatDate() {
+				var date = new Date();
+				var seperator1 = "-";
+				var seperator2 = ":";
+				var month = date.getMonth() + 1;
+				var strDate = date.getDate();
+
+				if (month >= 1 && month <= 9) {
+					month = "0" + month;
+				}
+
+				if (strDate >= 0 && strDate <= 9) {
+					strDate = "0" + strDate;
+				}
+				var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+						+ " " + date.getHours() + seperator2 + date.getMinutes()
+						+ seperator2 + date.getSeconds();
+				return currentdate;
 			}
 		},
 		watch:{
@@ -283,15 +262,12 @@
 						},1000)
 						
 					}
-					
-					
-					
 				}
 			},
 			detail:{
 				deep:true,
 				handler(newVal,oldVal){
-					// console.log('正在监听detail',newVal.length)
+					// console.log( newVal )
 				}
 			}
 		}
@@ -303,7 +279,7 @@
  <style lang="scss" scoped>
 	.content{
 		width:100%;
-		height: 100%;
+		// height: 100%;
 		ul{
 			width:100%;
 			overflow: hidden;
