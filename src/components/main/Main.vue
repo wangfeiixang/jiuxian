@@ -25,8 +25,6 @@
 			}
 		},
 		mounted(){
-//			console.log(111)
-//			console.log( this.$axios )
 			window.addEventListener('scroll', this.menu)
 		},
 		methods:{

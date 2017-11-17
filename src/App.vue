@@ -7,8 +7,65 @@
 </template>
 
 <script>
+import Vue from 'vue'
+
 export default {
-  name: 'app'
+	  name: 'app',
+	  data(){
+		  return{}
+	  },
+	  methods:{
+		  /*let num = 1;
+			let promise = new Promise(function(resolve, reject) {//使用promise的基本方法
+				setTimeout( ()=>{
+					num++;
+					console.log( num )
+					if ( num>1 ){
+						resolve(2);
+					} else {
+						reject(error);
+					}
+				},1000 )
+					// ... some code
+			});
+
+			promise.then(function(value) {
+				// success
+				console.log( "success",value )
+			}, function(error) {
+				// failure
+				console.log( "error" )
+			}); */
+
+			/* var getJSON = function(mehods,url) {//promise封装的ajax方法
+				var promise = new Promise(function(resolve, reject){
+					var client = new XMLHttpRequest();
+					client.open(mehods, url);
+					client.onreadystatechange = handler;
+					client.responseType = "json";
+					client.setRequestHeader("Accept", "application/json");
+					client.send();
+					function handler() {
+						if (this.readyState !== 4) {
+							return;
+						}
+						if (this.status === 200) {
+							resolve(this.response);
+						} else {
+							reject(new Error(this.statusText));
+						}
+					};
+				});
+				return promise;
+			};
+
+			getJSON("get","https://m.jiuxian.com/m_v1/statics/getzx.htm?topicId=1165&pageNum=1").then(function(json) {
+				console.log(json);
+			}, function(error) {
+				console.error('出错了', error);
+			}); */
+
+	  }
 }
 </script>
 
@@ -40,8 +97,8 @@ export default {
 	}
 
 	img{
-				transition:all 1s;
-			}
+			transition:all 1s;
+		}
 
 	img[lazy=loading]{
 		width: 100%;

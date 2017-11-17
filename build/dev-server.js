@@ -71,7 +71,7 @@ app.use(staticPath, express.static('./static'))
 //mock数据
 app.use('/mock',express.static('./mock'))
 
-const uri = 'http://192.168.3.54:' + port
+const uri = 'http://192.168.4.22:' + port
 
 var _resolve
 var _reject
@@ -91,7 +91,7 @@ devMiddleware.waitUntilValid(() => {
       _reject(err)
     }
     process.env.PORT = port
-    var uri = 'http://192.168.3.54:' + port
+    var uri = 'http://192.168.4.22:' + port
     console.log('> Listening at ' + uri + '\n')
     // when env is testing, don't need open it
     if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {

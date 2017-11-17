@@ -9,7 +9,7 @@ import VueLazyload from 'vue-lazyload'
 //use custom directive
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  error: 'http://cdn.uehtml.com/201402/1392662591495_1140x0.gif',
+  error: '/static/images/lazy.png',
   loading: '/static/images/lazy.png',
   attempt: 1,
   // listenEvents: [ 'touchmove','scroll', 'mousewheel','wheel' ]
@@ -54,7 +54,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 
 //console.log( process.env.NODE_ENV )
 
-axios.defaults.baseURL = 'http://192.168.3.54:9092/mock/'; 
+axios.defaults.baseURL = 'http://192.168.4.22:9092/mock/'; 
 
 Vue.config.productionTip = false
 
