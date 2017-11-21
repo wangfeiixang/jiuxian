@@ -66,7 +66,7 @@ export default new Router({
     {
       path: '/mine',
       name: 'mine',
-      component: Mine,
+      component: Register,
       children: [{
         path: 'login',
         name: 'login',
