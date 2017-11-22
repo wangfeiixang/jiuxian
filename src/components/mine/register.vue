@@ -3,7 +3,7 @@
 		<my-head>用户注册</my-head>
 		<div class="register-box">
 			<div class="phone">
-				<i></i><input type="text" placeholder="手机号" v-model="phone">
+				<i></i><input type="text" placeholder="手机号" v-model="phone" v-on:blur="phoneBlur">
 				<p v-show="isPhone"><i class="error"></i>请输入手机号</p>
 			</div>
 			<div class="verify">
@@ -11,15 +11,15 @@
 				<span @click="change">换一张</span>
 			</div>
 			<div class="getVerify">
-				<input type="text"  placeholder="请输入校验码"><button>获取校验码</button>
+				<input type="text"  placeholder="请输入校验码"><button  @click="btn"  :class="[isGetverify?'change':'active']"  v-text="getVerify"></button>
 			</div>
 			<div class="password">
-				<i></i><input type="text"  placeholder="请输入密码">
-				<p><i class="error"></i>请输入密码</p>
+				<i></i><input type="text"  placeholder="请输入密码" v-model="password" v-on:blur="passwordBlur" >
+				<p v-show="isPassword"><i class="error"></i>请输入密码</p>
 			</div>
 			<div class="again_password">
-				<i></i><input type="text"  placeholder="再次输入密码">
-				<p><i class="error"></i>请输入密码</p>
+				<i></i><input type="text"  placeholder="再次输入密码" v-model="again_password" v-on:blur="again_passwordBlur">
+				<p v-show="is_password"><i class="error"></i>请重新输入密码</p>
 			</div>
 		</div>
 	</div>
@@ -32,14 +32,30 @@
 		
 		data(){
 			return{
-				phone:null,
+				phone:null,//手机号验证部分
 				isPhone:false,
-				getVerify:null,
-				again_password:null,
+				rulePhone:/^\d{11}$/,
+				rulePassword:/^(?!\D+$)(?![^a-zA-Z]+$)\S{6,20}$/,//密码验证部分
+				password:null,
+				isPassword:false,
+				again_password:null,//第二次密码部分
+				is_password:false,
+				getVerify:'获取校验码',//获取校验码部分
+				isGetverify:false,
+				num:61,
 				src:null,
 				timestamp:null
 			}
 		},
+
+		mounted(){
+			this.timestamp = new Date( this.getNowFormatDate() ).getTime();
+			this.src = "https://mlogin.jiuxian.com/captchaimg?t="+this.timestamp;
+			// console.log( this.src )
+			// this.register();
+
+		},
+
 		methods:{
 
 			getNowFormatDate() {
@@ -63,19 +79,133 @@
 				return currentdate;
 			},
 
-			change(){
+			change(){//更换验证码
 				this.timestamp = new Date( this.getNowFormatDate() ).getTime();
 				this.src = "https://mlogin.jiuxian.com/captchaimg?t="+this.timestamp;
 				console.log( this.src )
+			},
+
+			register(){//注册账号
+
+				this.$axios.get('http://datainfo.duapp.com/shopdata/userinfo.php?',{
+					params:{
+						status:'register',
+						userID:this.phone,
+						password:this.password
+					}
+				 })
+			     .then( (data)=>{
+					 console.log( data.data )
+				 })
+				 .catch( (error)=>{
+					  console.log(error)
+				 })
+			},
+
+			phoneBlur(){//验证手机号
+				if ( !this.rulePhone.test( this.phone ) ) {
+					// console.log( "手机号验证error" )
+					this.isPhone = true;
+				} 
+			},
+
+			passwordBlur(){//验证手机密码
+				if ( !this.rulePassword.test( this.password ) ) {
+					// console.log( "手机号验证error" )
+					this.isPassword = true;
+				} 
+			},
+
+			again_passwordBlur(){//再次验证手机密码
+				if ( this.password==this.again_password ) {
+					// console.log( "手机号验证error" )
+					this.is_password = false;
+				} else{
+					this.is_password = true;
+				}
+			},
+
+			btn(e){//获取校验码
+				// console.log(e.target.disabled=true)
+				this.isGetverify = !this.isGetverify;
+				// console.log(this.isGetverify)
+				let timer = setInterval( ()=>{
+					
+					this.num--;
+					this.getVerify = this.num+"秒后在获取";
+					this.isGetverify = true;
+					e.target.disabled = true;
+
+					if ( this.num==0 ) {
+						this.getVerify = '获取校验码';
+						this.isGetverify = false;
+						e.target.disabled = false;
+						clearInterval(timer);
+					} 
+						
+						
+					
+					
+				},1000)
+				
 			}
 			
 		},
-		mounted(){
-			this.timestamp = new Date( this.getNowFormatDate() ).getTime();
-			this.src = "https://mlogin.jiuxian.com/captchaimg?t="+this.timestamp;
-			// console.log( this.src )
+		
+		watch:{
+			phone(_new,_old){//验证手机号码
+				if ( _new.length>=11  ) {
+					// console.log('success')
+					if ( this.rulePhone.test( _new ) ) {
+						// console.log('success')
+						this.isPhone = false;
+					} else {
+						// console.log('error')
+						this.isPhone = true;
+					}
+					
+				} 
+				// console.log( rule.test( _new ) );
+			},
+			password(_new,_old){//验证密码
+				
+				if ( _new.length>=6  ) {
+					// console.log('success')
+					if ( this.rulePassword.test( _new ) ) {
+						this.isPassword = false;
+						if ( this.again_password  ) {
+							this.again_passwordBlur()
+						}
+						
+					} else {
+						// console.log('error')
+						this.isPassword = true;
+					}
+					
+				} 
+			},
+			again_password(_new,_old){//再次验证密码
 
-        }
+				if ( this.password.length == _new.length ) {
+
+					if ( this.password == _new ) {
+						// console.log( "密码正确" )
+						this.is_password = false;
+					} else {
+						// console.log( "密码错误" )
+						this.is_password = true;
+					}
+					
+				} else if(  this.password.length<_new.length ){
+					this.is_password = true;
+				}
+
+				
+				
+				
+			}
+
+		}
 		
 	}
 
@@ -182,7 +312,6 @@
 				}
 				button{
 					outline: none;
-					background: #df3832;
 					color: #fff;
 					width: auto;
 					height:4rem;
@@ -191,6 +320,14 @@
 					border-radius: 5px;
 					color: #ffffff;
 					padding: 0 15px;
+				}
+
+				button.active{
+					background: #df3832;
+				}
+
+				button.change{
+					background: #827b7b;
 				}
 			}
 
