@@ -30,7 +30,7 @@ Vue.use(Router)
 export default new Router({
   routes: [
   	{
-      path: '*',
+      path: '*',//重定向页面
       redirect: '/main'
     },
     {
@@ -66,7 +66,7 @@ export default new Router({
     {
       path: '/mine',
       name: 'mine',
-      component: Register,
+      component: Mine,
       children: [{
         path: 'login',
         name: 'login',

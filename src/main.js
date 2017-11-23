@@ -28,6 +28,10 @@ Vue.use(InfiniteScroll);
 import { Spinner } from 'mint-ui';
 Vue.component(Spinner.name, Spinner);
 
+//button按钮
+import { Button } from 'mint-ui';
+Vue.component(Button.name, Button);
+
 
 //引入全局自定义UI组件
 import MyUI from './components/common/index'

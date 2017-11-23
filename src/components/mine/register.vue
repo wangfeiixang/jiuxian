@@ -3,7 +3,7 @@
 		<my-head>用户注册</my-head>
 		<div class="register-box">
 			<div class="phone">
-				<i></i><input type="text" placeholder="手机号" v-model="phone" v-on:blur="phoneBlur">
+				<i></i><input type="text" placeholder="请输入手机号" v-model="phone" v-on:blur="phoneBlur">
 				<p v-show="isPhone"><i class="error"></i>请输入手机号</p>
 			</div>
 			<div class="verify">
@@ -21,6 +21,12 @@
 				<i></i><input type="text"  placeholder="再次输入密码" v-model="again_password" v-on:blur="again_passwordBlur">
 				<p v-show="is_password"><i class="error"></i>请重新输入密码</p>
 			</div>
+			<mt-button type="danger" size="large" class="mtBtn" @click.native="register">确认注册</mt-button>
+			<div class="absolut" v-show="isMessage">
+				<mt-spinner :size="60" color="#ef4f4f"  :type="1"></mt-spinner>
+				<p>{{message}}</p>
+			</div>
+		
 		</div>
 	</div>
 </template>
@@ -42,7 +48,9 @@
 				is_password:false,
 				getVerify:'获取校验码',//获取校验码部分
 				isGetverify:false,
-				num:61,
+				num:60,
+				message:null,//注册后返回的信息
+				isMessage:false,
 				src:null,
 				timestamp:null
 			}
@@ -86,6 +94,14 @@
 			},
 
 			register(){//注册账号
+				// console.log( '这是注册',this.$router )
+				// this.isMessage = !this.isMessage;
+				let that = this;
+				if ( this.phone ==null || this.password ==null ) {
+					return;
+				} 
+
+				console.log('发送数据')
 
 				this.$axios.get('http://datainfo.duapp.com/shopdata/userinfo.php?',{
 					params:{
@@ -94,12 +110,27 @@
 						password:this.password
 					}
 				 })
-			     .then( (data)=>{
-					 console.log( data.data )
-				 })
-				 .catch( (error)=>{
-					  console.log(error)
-				 })
+				.then( (data)=>{
+					let type = data.data;
+					//  console.log( type)
+					switch( type ){
+						case 0:that.message='用户名重名';that.isMessage=true;break;
+						case 1:that.message='注册成功,2秒后跳转登录页面';that.isMessage=true;break;
+						case 2:that.message='服务器炸了！！！';that.isMessage=true;break;
+						default:that.isMessage=false;
+					}
+
+					setTimeout( ()=>{
+						that.isMessage=false;
+						if ( type==1 ) {
+							that.$router.push({path: '/mine/login'});
+						}
+					},2000 )
+					
+				})
+				.catch( (error)=>{
+					console.log(error)
+				})
 			},
 
 			phoneBlur(){//验证手机号
@@ -220,7 +251,6 @@
 			padding: 25px 8% 0;
 			width: 100%;
 			height: 100%;
-			
 			i.error{
 				width: 15px;
 				height: 15px;
@@ -367,6 +397,30 @@
 					}
 				}
 
+			}
+
+			.mtBtn{
+				font-size: 1.6rem;
+			}
+
+			.absolut{
+				position:absolute;
+				// width: 12rem;
+				height: 6rem;
+				left: 0;
+				top:0;
+				right: 0;
+				bottom:0;
+				margin: auto;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				z-index: 999;
+				p{
+					font-size: 1.2rem;
+					color:goldenrod;
+				}
 			}
 		}
 	}
