@@ -6,7 +6,10 @@
 2. 使用`axios`全局配置
 3. 使用`mock`生成`json`数据
 4. 使用`vue-lazyload`实现懒加载
-5. 首页动态效果图![Image text](./01.gif)
+5. 首页动态效果图如下
+   > ![Image text](./01.gif)
+6. 注册页面效果图如下
+   > ![Image text](./02.gif)
 
 
 
