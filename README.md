@@ -1,10 +1,12 @@
 ## wangfeixiang
 
-> demo
+> 酒仙网vue全家桶
 
-1. 添加mint组件的下拉加载，无限滚动，懒加载
-2. 添加`axios`全局配置，全局自定义过滤器`filter`
-3. 添加`mock`假`json`数据
+1. 使用`mint`组件的下拉加载，无限滚动
+2. 使用`axios`全局配置
+3. 使用`mock`生成`json`数据
+4. 使用`vue-lazyload`实现懒加载
+5. 首页动态效果图![Image text](./01.gif)
 
 
 

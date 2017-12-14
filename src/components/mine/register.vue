@@ -101,7 +101,7 @@
 					return;
 				} 
 
-				console.log('发送数据')
+				// console.log('发送数据')
 
 				this.$axios.get('http://datainfo.duapp.com/shopdata/userinfo.php?',{
 					params:{
