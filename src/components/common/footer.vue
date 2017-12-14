@@ -15,7 +15,7 @@
                <router-link  to="/shopping"><img src="/static/images/03.png" alt=""></router-link>
            </li>
            <li>
-               <router-link  to="/mine/login"><img src="/static/images/04.png" alt=""></router-link>
+               <router-link  to="/mine/register"><img src="/static/images/04.png" alt=""></router-link>
            </li>
        </ul>
     </footer>

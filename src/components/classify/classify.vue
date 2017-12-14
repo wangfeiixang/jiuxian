@@ -5,18 +5,18 @@
 			<input type="search" placeholder="茅台"><button>搜索</button>
 		</div>
 		<ul>
-			<li><a ><i></i><span>白酒</span></a></li>
-			<li><a ><i></i><span>葡萄酒</span></a></li>
-			<li><a ><i></i><span>洋酒</span></a></li>
-			<li><a ><i></i><span>整箱购</span></a></li>
-			<li><a ><i></i><span>老酒</span></a></li>
-			<li><a ><i></i><span>清仓特卖</span></a></li>
-			<li><a ><i></i><span>海外直采</span></a></li>
-			<li><a ><i></i><span>精美大坛</span></a></li>
-			<li><a ><i></i><span>红酒整箱</span></a></li>
-			<li><a ><i></i><span>值得买</span></a></li>
-			<li><a ><i></i><span>销量排行</span></a></li>
-			<li><a ><i></i><span>礼尚往来</span></a></li>
+			<li><router-link to="/list"><i></i><span>白酒</span></router-link></li>
+			<li><router-link to="/list"><i></i><span>葡萄酒</span></router-link></li>
+			<li><router-link to="/list"><i></i><span>洋酒</span></router-link></li>
+			<li><router-link to="/list"><i></i><span>整箱购</span></router-link></li>
+			<li><router-link to="/list"><i></i><span>老酒</span></router-link></li>
+			<li><router-link to="/list"><i></i><span>清仓特卖</span></router-link></li>
+			<li><router-link to="/list"><i></i><span>海外直采</span></router-link></li>
+			<li><router-link to="/list"><i></i><span>精美大坛</span></router-link></li>
+			<li><router-link to="/list"><i></i><span>红酒整箱</span></router-link></li>
+			<li><router-link to="/list"><i></i><span>值得买</span></router-link></li>
+			<li><router-link to="/list"><i></i><span>销量排行</span></router-link></li>
+			<li><router-link to="/list"><i></i><span>礼尚往来</span></router-link></li>
 		</ul>
 	</div>
 </template>
@@ -102,6 +102,7 @@
 						display: block;
 						width: 100%;
 						text-align: center;
+						color:#666;
 					}
 				}
 			}
