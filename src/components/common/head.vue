@@ -8,7 +8,7 @@
 			<a href="#/main"> <i></i> 首页</a>
 			<a href="#/mainPlace"> <i></i> 搜索</a>
 			<a href="#/shopping"> <i></i> 购物车</a>
-			<a href="#/mine"> <i></i> 我的酒仙</a>
+			<a href="#/mine/register"> <i></i> 我的酒仙</a>
 		</p>
     </header>
 		

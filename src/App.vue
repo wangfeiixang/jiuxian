@@ -70,6 +70,8 @@ export default {
 </script>
 
 <style lang="scss">
+
+
 #app {
 	width: 100%;
 	overflow: hidden;
@@ -80,6 +82,14 @@ export default {
     height: 6px;
     opacity: 0.6;
 	background: #fff ;
+}
+
+.swiper-detail .swiper-pagination-bullet{
+	background: #ccc;
+}
+
+.swiper-detail .swiper-pagination-bullet-active{
+	background: red;
 }
 
 .swiper-pagination-bullet-active {

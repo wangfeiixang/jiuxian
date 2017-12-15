@@ -58,7 +58,7 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 
 //console.log( process.env.NODE_ENV )
 
-axios.defaults.baseURL = 'http://192.168.2.91:9092/mock/'; 
+axios.defaults.baseURL = 'http://localhost:9092/mock/'; 
 
 Vue.config.productionTip = false
 

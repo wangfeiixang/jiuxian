@@ -1,30 +1,32 @@
 <template>
 	<div id="list">
-		<my-head>商品列表</my-head>
+		<list-head>商品列表</list-head>
 		<ul class="tab">
 			<li><a @click="change('综合')" :class="[synthesize?'active':'']">综合</a></li>
 			<li><a @click="change('销量')" :class="[judgeType==='销量'?'active':'']">销量</a></li>
-			<li><a @click="change('价格')" :class="['price',judgeType==='价格'?'active':'']" >价格<i :class="['default',rise?'goUp':'down']"></i></a></li>
+			<li><a @click="change('价格')" :class="['price',judgeType==='价格'?'active':'']" >价格<i :class="[priceColor?'default':(rise?'goUp':'down')]"></i></a></li>
 			<li><a @click="change('显示')" class="tab4"> <i :class="[isShow?'active':'']" ></i> </a></li>
 		</ul>
 		<ul
 			v-infinite-scroll="loadMore"
 			infinite-scroll-disabled="loading"
 			infinite-scroll-distance="10" class="list-infinite">
-			<li v-for="(items,index,key) in list" v-bind:key="items.id" >
-				<a >
-					<img :src="items.img" alt="">
+			<li :class="[isShow?'half':'full']" v-for="(items,index,key) in list" v-bind:key="items.id" >
+				<!-- <router-link :to="{path:'/detail/'+110}"> -->
+				<a :href="'#/detail/'+items.id">
+					<img :src="items.img" >
 					<div class="right">
 						<p class="title">{{items.title}}</p>
-						<p class="label" >
+						<p class="label">
 							<span v-for="(item,index,key) in items.label" v-bind:key="item.id" :class="[item==='限时抢购'?'orange':'blue']">{{item}}</span>
 						</p>
-						<p class="sale">{{items.price}}</p>
+						<p class="sale">￥{{items.price}}</p>
 						<p class="content">
 						<i v-show="items.content[0].type"></i><span>{{items.content[1].count}}</span><span>{{items.content[2].comment}}</span>
 						</p>
 					</div>
 				</a>
+				<!-- </router-link> -->
 			</li>
 			<span class="confirm" v-show="confirmBoolean">没有数据</span>
 			<span class="infite-box" v-show="infiniteBoolean">
@@ -43,19 +45,20 @@
 				list:[],//存贮数据
 				loading:true,
 				confirmBoolean:false,
-				infiniteBoolean:true,//显示加载按钮
+				infiniteBoolean:false,//显示加载按钮
 				isExist:true,
 				judgeType:null,
-				synthesize:true,
-				rise:false,
-				isShow:false,
+				synthesize:true,//控制综合开关
+				rise:false,//控制价格排序开关
+				isShow:true,//控制显示布局开关
 				support:null,//判断是否是自营
 				arrSale:[],//销量数据
-				
+				priceColor:true,//控制价格排序颜色
 				
 			}
 		},
 		computed:{
+
 		},
 		mounted(){
 			this.loadMore();
@@ -64,13 +67,13 @@
 			change(type){
 				// console.log(111,type)
 				switch(type){
-					case '综合':this.judgeType=type;this.synthesize=!this.synthesize;
+					case '综合':this.judgeType=type;this.synthesize=!this.synthesize;this.priceColor=true;
 					break;
-					case '销量':this.judgeType=type;this.synthesize=false;this.sales();
+					case '销量':this.judgeType=type;this.synthesize=false;this.sales();this.priceColor=true;
 					break;
-					case '价格':this.judgeType=type;this.rise =! this.rise;this.synthesize=false;
+					case '价格':this.judgeType=type;this.rise =! this.rise;this.priceColor=false;this.synthesize=false;this.changePrice();
 					break;
-					case '显示':this.judgeType=type;this.isShow =! this.isShow;this.synthesize=false;
+					case '显示':this.judgeType=type;this.isShow =! this.isShow;this.synthesize=false;this.priceColor=true;
 					break;
 				}
 
@@ -124,29 +127,31 @@
 
 			    },1000); 
 			},
-			sales(){
+			sales(){//销量排序
 				// console.log('这是销量',this.list);
-				let arr = [];
-				this.list.forEach( (ele,i)=>{
-					// console.log(ele.title.length)
-					if ( ele.title.length >0 ) {
-						arr.push( ele.title.length )
-					}
+
+				this.list.sort( (a,b)=>{
+					// console.log(a.title.length)
+					return b.sale-a.sale;
 				} )
 
-				// this.sameFunction(arr)
+				console.log(this.list);
 
+				return this.list;
+				
 			},
-			sameFunction(arr){
-				// console.log('执行程序')
-			/* 	let _arr = arr;
-				_arr.sort((a,b)=>{
-					return b-a;
-				})
-
-				this.arrSale = _arr;
-
-				return this.arrSale; */
+			changePrice(){//价格排序
+				// console.log('价格排序开关',this.rise);
+				this.list.sort( (a,b)=>{
+					if ( this.rise ) {
+						return a.price-b.price;
+					} else {
+						return b.price-a.price;
+					}
+					// console.log(a.title.length)
+				} )
+				// console.log(this.list);
+				return this.list;
 			}
 		}
 	}
@@ -168,6 +173,8 @@
 		overflow: hidden;
 		height: 40px;
 		border-bottom: 1px solid #f6f6f6;
+		
+
 		li{
 			width: 25%;
 			float: left;
@@ -243,12 +250,110 @@
 	.list-infinite{
 		width: 100%;
 		overflow: hidden;
-		li{
+		background: #eeeeee;
+		
+		li.half{
+			width: 48%;
+			float: left;
+			background: #fff;
+			margin: 5px 1% 0;
+			a{
+				display: block;
+				width: 100%;
+				height: 100%;
+				color: #666;
+				padding: 10px 0;
+				
+				img{
+					width: 110px;
+					height: 110px;
+					margin: auto;
+					display: block;
+				}
+			}
+
+			p.title{
+				overflow: hidden;
+				text-overflow:ellipsis;
+				white-space: nowrap;
+				font-size: 1.4rem;
+				padding-left: 5px;
+			}
+
+			p.label{
+				padding-top: 2px;
+				margin-left: 5px;
+				height: 38px;
+				span{
+					margin-right: 5px;
+					font-size: 10px;
+					display: inline-block;
+					padding: 0 2px;
+					color: #fff;
+					height: 14px;
+					line-height: 14px;
+					border-radius: 2px;
+				}
+				span.orange{
+					background-color: #ffa855;
+				}
+
+				span.blue{
+					background-color: #87aef1;
+				}
+			}
+
+			p.sale{
+				margin-left: 5px;
+				height: 20px;
+				line-height: 20px;
+				margin-top: 8px;
+				overflow: hidden;
+				white-space: nowrap;
+				font-size: 1.5rem;
+				color: #fc5a5a;
+			}
+
+			p.content{
+				margin-left: 5px;
+				i{
+					display: inline-block;
+					width: 38px;
+					height: 13px;
+					margin-right: 10px;
+					background: url(/static/images/listIcon.png) no-repeat;
+					background-size: 100px 70px;
+					background-position: -62px -15px;
+				}
+
+				/* i.support{
+					background-position: -62px -15px;
+				}
+
+				i.plant{
+					background-position: -62px -30px;
+				} */
+				
+				span{
+					color: #aaa;
+					display: inline-block;
+					font-size: 1rem;
+				}
+
+				span:nth-child(2){
+					margin-right:10px;
+				}
+			}
+			
+		}
+		
+
+		li.full{
+			background: #fff;
 			width: 100%;
 			overflow: hidden;
-			
+			padding-top: 15px;
 			a{
-				padding-top: 15px;
 				display: block;
 				width: 100%;
 				overflow: hidden;
@@ -331,6 +436,7 @@
 		}
 
 		span.infite-box{
+			background: #fff;
 			display: inline-block;
 			width: 100%;
 			text-align: center;
@@ -345,6 +451,7 @@
 			
 		}
 		span.confirm{
+			background: #fff;
 			display: inline-block;
 			width: 100%;
 			text-align: center;
