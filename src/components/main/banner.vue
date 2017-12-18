@@ -1,7 +1,7 @@
 <template>
 	<div class="swiper-container swiper-banner">
         <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="(item,key,index) in list" :key="item.id"><img :src="item" alt=""></div>
+            <div class="swiper-slide" v-for="(item,key,index) in list" v-bind:key="item.id"><img :src="item" alt=""></div>
         </div>
         <div class="swiper-pagination"></div>
     </div>

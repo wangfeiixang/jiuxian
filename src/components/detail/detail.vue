@@ -25,10 +25,46 @@
 			<div class="coupon">
 				<span class="get">领券</span>	
 				<span class="img">
-					<img src="/static/images/con_1.png" alt=""><span class="convert">满1212减123</span><img src="/static/images/con_2.png" alt="">
+					<img src="/static/images/con_1.png" ><span class="convert">满1212减123</span><img src="/static/images/con_2.png" class="img-padding">
+					<img src="/static/images/con_1.png" ><span class="convert">满1212减123</span><img src="/static/images/con_2.png" class="img-padding">
+					<img src="/static/images/con_1.png" ><span class="convert">满1212减123</span><img src="/static/images/con_2.png" >
 				</span>
+				<span class="right"></span>
 			</div>
 			<p class="background"></p>	
+			<div class="address">
+				<div class="count">
+					<span>数量</span>
+					<span class="input">
+						<span>-</span><input type="text" placeholder="1"><span>+</span>
+					</span>
+				</div>
+				<div class="goods">
+					<span>送至</span>
+					<span>北京</span><span>北京市</span><span>东城区</span>
+					<p>有货，预计1-2天可到达</p>
+				</div>
+				<div class="hint">
+					<span>提示</span>
+					<span>此商品无原厂手提袋</span>
+				</div>	
+			</div>
+			<p class="background"></p>	
+			<div class="bigImg">
+				<img src="/static/images/list13.jpg" >
+				<img src="/static/images/list14.jpg" >
+				<img src="/static/images/list15.jpg" >
+				<img src="/static/images/list16.jpg" >
+			</div>
+		</div>
+		<div class="footer">
+			<ul>
+				<li ><a ><img src="/static/images/list01.png" ></a></li>
+				<li class="border-right"><a ><img src="/static/images/list02.png" ></a></li>
+				<li ><a ><img src="/static/images/list03.png" ></a></li>
+				<li><a >加入购物车</a></li>
+				<li><a >立即购买</a></li>
+			</ul>
 		</div>
 	</div>
 </template>
@@ -47,9 +83,9 @@
 			
 		},
 		mounted(){
-			console.log( this.$route.params.id )
+			// console.log( this.$route.params.id )
 			this.swiperDetail();
-			this.$axios.post('https://m.jiuxian.com/m_v1/goods/detailPromo/55511')
+			this.$axios.post('https://m.jiuxian.com/m_v1/goods/detailPromo/9142')
 				.then( (data)=>{
 					console.log(data.data)
 				})
@@ -160,6 +196,7 @@
 			div.coupon{
 				line-height: 18px;
 				padding: 12px 10px;
+				position: relative;
 				span.get{
 					display: inline-block;
 					margin-right: 10px;
@@ -185,6 +222,154 @@
 					img{
 						width: 4px;
 						transition: none;
+					}
+
+					img.img-padding{
+						margin-right: 10px;
+					}
+				}
+
+				span.right{
+					display: inline-block;
+					background: url(/static/images/catIcon.png) no-repeat 0 0;
+					background-size: 150px;
+					background-position: -130px -40px;
+					width: 12px;
+					height: 13px;
+					position: absolute;
+					z-index: 1;
+					top: 15px;
+					right: 10px;
+				}
+			}
+
+			div.address{
+				width: 100%;
+				padding: 10px 10px 5px;
+				span.input{
+					margin-left: 10px;
+					
+					span,input{
+						width: 22px;
+						height: 22px;
+						line-height: 22px;;
+						display: inline-block;
+						text-align: center;
+						border: 1px solid #bfbfbf;
+						vertical-align: middle;
+						font-size: 14px;
+					}
+
+					input{
+						width: 32px;
+						height: 21px;
+						border: 1px solid #bfbfbf;
+						border-left:0;
+						border-right: 0;
+						vertical-align: -1px;
+					}
+					
+				}
+			}
+
+			div.goods{
+				span{
+					display: inline-block;
+				}
+
+				span:nth-child(2){
+					font-size: 13px;
+					padding:0 5px 0 6px;
+				}
+
+				span:nth-child(3),span:nth-child(4){
+					font-size: 13px;
+					padding:0 5px;
+				}
+
+				p{
+					color:red;
+					font-size: 11px;
+					margin: -18px 0 0 40px;
+				}
+
+			}
+
+			div.hint{
+				margin-top: -15px;
+				span:nth-child(2){
+					font-size: 12px;
+					display: inline-block;
+					margin-left: 5px;
+				}
+			}
+
+			div.bigImg{
+				width: 100%;
+				padding: 2rem 1rem;
+				
+				img{
+					width: 100%;
+					display: block;
+				}
+			}
+			
+		}
+
+		div.footer{
+			width: 100%;
+			background-color: #fafafa;
+			position: fixed;
+			height: 45px;
+			bottom: 0;
+			left: 0;
+			z-index: 99;
+			width: 100%;
+			ul{
+				width: 100%;
+				height: 100%;
+				// overflow: hidden;
+				li{
+					float: left;
+					width: 18%;
+					height: 100%;
+					a{
+						display: block;
+						text-align: center;
+						img{
+							width:41px;
+						
+						}
+
+					}
+					
+				}
+
+				li.border-right{
+					border: 1px solid #d5cfcf;
+					border-top: 0;
+					border-bottom: 0;
+				}
+
+				li:nth-child(4),li:nth-child(5){
+					width: 22%;
+					a{
+						line-height:45px;
+						font-size: 1.6rem;
+						color:#fff;
+					}
+				}
+
+				li:nth-child(4){
+					width: 24%;
+					a{
+						background:#dc3131;
+					}
+				}
+
+				li:nth-child(5){
+					a{
+						background:#524141;
 					}
 				}
 			}

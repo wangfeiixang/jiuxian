@@ -11,14 +11,14 @@
 			v-infinite-scroll="loadMore"
 			infinite-scroll-disabled="loading"
 			infinite-scroll-distance="10" class="list-infinite">
-			<li :class="[isShow?'half':'full']" v-for="(items,index,key) in list" v-bind:key="items.id" >
+			<li :class="[isShow?'half':'full']" v-for="(items,key,index) in list"  :key="items.id" >
 				<!-- <router-link :to="{path:'/detail/'+110}"> -->
-				<a :href="'#/detail/'+items.id">
+				<a :href="'#/detail/'+items.number">
 					<img :src="items.img" >
 					<div class="right">
 						<p class="title">{{items.title}}</p>
 						<p class="label">
-							<span v-for="(item,index,key) in items.label" v-bind:key="item.id" :class="[item==='限时抢购'?'orange':'blue']">{{item}}</span>
+							<span v-for="(item,index,key) in items.label"  :key="item.id" :class="[item==='限时抢购'?'orange':'blue']">{{item}}</span>
 						</p>
 						<p class="sale">￥{{items.price}}</p>
 						<p class="content">
