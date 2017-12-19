@@ -50,6 +50,7 @@
 		height: 100%;
 		.search{
 			width: 100%;
+			margin-top: 4rem;
 			padding: 0 5%;
 			height: 50px;
     		background-color: #e2e2e2;

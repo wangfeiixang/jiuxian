@@ -170,6 +170,7 @@
 
 	.tab{
 		width: 100%;
+		margin-top: 4rem;
 		overflow: hidden;
 		height: 40px;
 		border-bottom: 1px solid #f6f6f6;

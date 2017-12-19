@@ -13,10 +13,10 @@
 			<div class="swiper-pagination"></div>
 		</div>
 		<div class="content">
-			<h3>【京东配送，品质保证】 路易十四珍藏XO干邑白兰地</h3>
-			<p class="title">【京东配送，品质保证】 路易十四珍藏XO干邑白兰地</p>
+			<h3>【京东配送，品质保证】 {{list.title}}</h3>
+			<p class="title">【京东配送，品质保证】 {{list.title}}</p>
 			<p class="price">
-				<span class="new">￥533.00</span><span class="old">￥1533.00</span>
+				<span class="new">￥{{list.price}}</span><span class="old">￥1533.00</span>
 			</p>
 			<p class="sale">
 				<span class="orange">限时抢购</span>
@@ -36,7 +36,7 @@
 				<div class="count">
 					<span>数量</span>
 					<span class="input">
-						<span>-</span><input type="text" placeholder="1"><span>+</span>
+						<span @click="reduce">-</span><input id="count" type="text" placeholder="1"><span @click="add">+</span>
 					</span>
 				</div>
 				<div class="goods">
@@ -61,8 +61,8 @@
 			<ul>
 				<li ><a ><img src="/static/images/list01.png" ></a></li>
 				<li class="border-right"><a ><img src="/static/images/list02.png" ></a></li>
-				<li ><a ><img src="/static/images/list03.png" ></a></li>
-				<li><a >加入购物车</a></li>
+				<li ><a href="#/shopping"><img src="/static/images/list03.png" ></a><i v-show="shopping" id="shopping"></i></li>
+				<li><a @click="addShopping">加入购物车</a></li>
 				<li><a >立即购买</a></li>
 			</ul>
 		</div>
@@ -76,7 +76,15 @@
 		
 		data(){
 			return{
-				detail:null,
+				detail:null,//这是控制详情页面的swiper
+				id:null,//传入的参数
+				list:[],//获取单条数据
+				oCount:null,//选择input元素
+				oShopping:null,//选择i元素
+				shopping:false,//选择i元素
+				count:1,//商品的数量
+				allCount:0,//这是总数量
+
 			}
 		},
 		computed:{
@@ -84,14 +92,12 @@
 		},
 		mounted(){
 			// console.log( this.$route.params.id )
+			this.oCount = document.getElementById('count');
+			this.oShopping = document.getElementById('shopping');
+			this.oCount.value = this.count;
+			this.id = this.$route.params.id;
 			this.swiperDetail();
-			this.$axios.post('https://m.jiuxian.com/m_v1/goods/detailPromo/9142')
-				.then( (data)=>{
-					console.log(data.data)
-				})
-				.catch((error)=>{
-					console.log('error',error)
-				})
+			this.ajax();
 		},
 		methods:{
 			swiperDetail(){//手势滑动
@@ -104,6 +110,50 @@
 					autoplay: 1500,
 					loop: true
 				});
+			},
+			ajax(){
+				let that = this;
+				this.$axios.get('list.json')
+				.then( (data)=>{
+					data.data.list.forEach((ele,i)=>{
+						// console.log(ele.number);
+						if ( ele.number==that.id ) {
+							// console.log('这个是符合条件',ele);
+							that.list = ele;
+						} else {
+							return;
+							// console.log('这个不是符合条件');
+						}
+					})
+					// console.log( '这是商品',that.list )
+				})
+				.catch((error)=>{
+					console.log('error',error)
+				})
+			},
+			reduce(){//商品数量的减少
+				// console.log('这是减')
+				if ( this.count<=1 ) {
+					this.count =1;
+				} else {
+					this.count--;
+				}
+
+				this.oCount.value = this.count;
+			},
+			add(){//商品数量的增加
+				// this.oCount=document.getElementById('count');
+				this.count++;
+				this.oCount.value = this.count;
+				// console.log('这是数量',this.count)
+
+			},
+			addShopping(){//加入购物车
+				this.allCount += parseInt( this.oCount.value );
+				// this.oCount.value = this.count;
+				console.log( this.allCount )
+				this.shopping = true;
+				this.oShopping.innerHTML = this.allCount;
 			}
 			
 		}
@@ -122,6 +172,7 @@
 		.swiper-container {
 			width: 100%;
 			height: 100%;
+			margin-top: 4rem;
 		}
 
 		.swiper-detail .swiper-pagination-bullet{
@@ -150,6 +201,10 @@
 				font-size: 13px;
 				padding-left: 5px;
     			color: #fc5a5a;
+				overflow:hidden;
+				text-overflow:ellipsis;
+				white-space:nowrap;
+				width: 100%;
 			}
 
 			p.price{
@@ -336,6 +391,7 @@
 					a{
 						display: block;
 						text-align: center;
+						margin-top: 2px;
 						img{
 							width:41px;
 						
@@ -351,25 +407,44 @@
 					border-bottom: 0;
 				}
 
+				li:nth-child(3){
+						position: relative;
+						i{
+							position: absolute;
+							top: 3px;
+							left: 50%;
+							height: 14px;
+							line-height: 14px;
+							display: block;
+							padding: 0 5px;
+							color: #fff;
+							border-radius: 7px;
+							background-color: #fc5a5a;
+							font-size: 8px;
+							font-style: normal;
+						}
+				}
+
 				li:nth-child(4),li:nth-child(5){
 					width: 22%;
 					a{
 						line-height:45px;
-						font-size: 1.6rem;
+						font-size: 1.4rem;
 						color:#fff;
+						padding: 0 6px;
 					}
 				}
 
 				li:nth-child(4){
 					width: 24%;
 					a{
-						background:#dc3131;
+						background:#fc5a5a;
 					}
 				}
 
 				li:nth-child(5){
 					a{
-						background:#524141;
+						background:#3c3f51;
 					}
 				}
 			}

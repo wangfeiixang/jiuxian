@@ -91,6 +91,9 @@
 		width: 100%;
 		// position: fixed;
 		z-index: 999;
+		position: fixed;
+		left:0;
+		top:0;
 		overflow: hidden;
 	}
 
@@ -99,6 +102,7 @@
 		height: 100%;
 		background-color: #de4943;
     	color: #fff;
+	
 		margin: auto;
 		
 		a.left,a.right{

@@ -48,7 +48,10 @@
 		overflow: hidden;
 		background-color: #de4943;
     	color: #fff;
-		position: relative;
+		position: fixed;
+		z-index: 999;
+		top: 0;
+		left:0;
 		margin: auto;
 		a.left,a.right{
 			width: 30px;
