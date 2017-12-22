@@ -13,14 +13,16 @@
 			infinite-scroll-distance="10" class="list-infinite">
 			<li :class="[isShow?'half':'full']" v-for="(items,key,index) in list"  :key="items.id" >
 				<!-- <router-link :to="{path:'/detail/'+110}"> -->
-				<a :href="'#/detail/'+items.number">
-					<img :src="items.img" >
+				<a >
+					<a :href="'#/detail/'+items.number">
+						<img :src="items.img" >
+					</a>
 					<div class="right">
 						<p class="title">{{items.title}}</p>
 						<p class="label">
 							<span v-for="(item,index,key) in items.label"  :key="item.id" :class="[item==='限时抢购'?'orange':'blue']">{{item}}</span>
 						</p>
-						<p class="sale">￥{{items.price}}</p>
+						<p class="sale"><span>￥{{items.price}}</span> <span class="addShopping" @click="addCar(items)">加入购物车</span></p>
 						<p class="content">
 						<i v-show="items.content[0].type"></i><span>{{items.content[1].count}}</span><span>{{items.content[2].comment}}</span>
 						</p>
@@ -38,6 +40,9 @@
 
 <script>
 	import Vue from 'vue'
+	import {mapState,mapGetters,mapActions} from 'vuex'
+	//加入购物车的信息提示框
+	import { Indicator } from 'mint-ui';
 	
 	export default {
 		data(){
@@ -54,13 +59,16 @@
 				support:null,//判断是否是自营
 				arrSale:[],//销量数据
 				priceColor:true,//控制价格排序颜色
+				isMessage:true,//显示弹出加入购物车的信息框
+				goodsList:[],//加入购物车的数据
 				
 			}
 		},
 		computed:{
-
+			//...mapState({goods:'goods'})
 		},
 		mounted(){
+			
 			this.loadMore();
 		},
 		methods:{
@@ -152,7 +160,105 @@
 				} )
 				// console.log(this.list);
 				return this.list;
+			},
+			addCar(goods){//加入购物车
+				// console.log('加入购物车')
+				let that = this;
+				let good = {
+					title:goods.title,
+					price:goods.price,
+					img:goods.img,
+					count:1,
+					id:goods.number
+				}
+
+				this.goodsList.push( good );
+
+				this.getId(good.id);
+
+
+				/* this.showPopBox();
+				this.resolvePromise(); */
+				//传入action
+				
+			},
+			showPopBox(){//判断是否显示弹出框
+				if ( this.isMessage ) {
+					Indicator.open('加入购物车');
+				} else {
+					Indicator.close();
+				}
+			},
+			resolvePromise(){//处理异步问题
+				let that = this;
+				let num = 0;
+				let promise = new Promise( (resolve, reject)=>{//使用promise的基本方法
+					let timer = setInterval(()=>{
+						num++;
+						if ( num%2 === 0 ) {
+							// console.log("running")
+							Indicator.close();
+							resolve();
+						}else if(num>2){
+							num = 0;
+							clearInterval(timer);
+						}
+						// console.log( num )
+					},1000)
+
+				});
+
+				promise.then(function() {
+					that.isMessage = true;
+					// console.log( "success" )
+				}, function(error) {
+					// that.showPopBox()
+					console.log( "error" )
+				}); 
+			},
+			getId(id){//处理商品数量重复
+				// console.log('所有商品',this.goodsList)
+				// console.log(id)
+
+				/* this.goodsList.forEach((ele,i)=>{
+					
+					if ( ele.id === id ) {
+						ele.count++;
+						// console.log( ele.id )
+					} else {
+						
+					}
+
+				}) */
+
+				for (let i = 0; i < this.goodsList.length; i++) {
+					if ( this.goodsList[i].id === id ) {
+						this.goodsList[i].count++;
+						 this.goodsList.slice(1,i);
+						// console.log( ele.id )
+					} else {
+						
+					}
+				}
+				
+				this.goodsList.splice(0);
+				
+				console.log( this.goodsList )
+				// this.$store.dispatch("addGoods",good)
 			}
+		},
+		watch:{
+			goodsList:{
+				deep:true,
+				handler(_new,_old){
+					// console.log( _new )
+					/* for (let i = 0; i < _new.length; i++) {
+						
+						console.log( _new[i].id )
+					} */
+				}
+			}
+			
 		}
 	}
 	
@@ -284,7 +390,7 @@
 			p.label{
 				padding-top: 2px;
 				margin-left: 5px;
-				height: 38px;
+				height: 20px;
 				span{
 					margin-right: 5px;
 					font-size: 10px;
@@ -305,14 +411,27 @@
 			}
 
 			p.sale{
-				margin-left: 5px;
+				
 				height: 20px;
 				line-height: 20px;
-				margin-top: 8px;
+				margin: 8px 0;
+				margin-left: 5px;
 				overflow: hidden;
 				white-space: nowrap;
 				font-size: 1.5rem;
 				color: #fc5a5a;
+				span{
+					float: left;
+				}
+
+				span.addShopping{
+					float: right;
+					color:#fff;
+					background: #fc5a5a;
+					font-size: .12rem;
+					padding:0 5px;
+					margin-right: 5px;
+				}
 			}
 
 			p.content{
@@ -358,12 +477,19 @@
 				display: block;
 				width: 100%;
 				overflow: hidden;
-				img{
+				a{
+					float: left;
 					width: 110px;
 					height: 110px;
-					display: block;
-					float: left;
+					display: inline-block;
+					img{
+						width: 110px;
+						height: 110px;
+						display: block;
+					}
+
 				}
+				
 				div.right{
 					margin-left: 110px;
 					padding: 5px 0 5px 10px;
@@ -376,7 +502,7 @@
 					p.label{
 						padding-top: 2px;
 						margin-left: 2px;
-						height: 38px;
+						height:20px;
 						span{
 							margin-right: 5px;
 							font-size: 10px;
@@ -399,11 +525,23 @@
 					p.sale{
 						 height: 20px;
 						line-height: 20px;
-						margin-top: 8px;
+						margin: 8px 0;
 						overflow: hidden;
 						white-space: nowrap;
 						font-size: 1.5rem;
     					color: #fc5a5a;
+						span{
+							float: left;
+						}
+
+						span.addShopping{
+							float: right;
+							color:#fff;
+							background: #fc5a5a;
+							font-size: .12rem;
+							padding:0 5px;
+							margin-right: 15px;
+						}
 					}
 
 					p.content{

@@ -33,6 +33,8 @@ import { Button } from 'mint-ui';
 Vue.component(Button.name, Button);
 
 
+
+
 //引入全局自定义UI组件
 import MyUI from './components/common/index'
 Vue.use(MyUI);
@@ -60,9 +62,11 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 
 axios.defaults.baseURL = 'http://localhost:9092/mock/'; 
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
-Vue.prototype.$axios = axios
+Vue.prototype.$axios = axios;
+
+// console.log( Vue.prototype.$axios  )
 
 /* eslint-disable no-new */
 new Vue({

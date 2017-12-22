@@ -127,4 +127,12 @@ export default {
 			opacity: 1;
 		}
 	}
+
+	.mint-indicator-wrapper{
+		padding: 1rem !important;
+		.mint-indicator-text{
+			font-size: 1.4rem;
+		}
+		
+	}
 </style>

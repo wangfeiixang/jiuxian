@@ -71,6 +71,7 @@
 
 <script>
 	import Vue from 'vue'
+	import {mapState,mapGetters,mapActions} from 'vuex'
 	
 	export default {
 		
@@ -88,7 +89,7 @@
 			}
 		},
 		computed:{
-			
+			// ...mapState({goods:'goods'})
 		},
 		mounted(){
 			// console.log( this.$route.params.id )
@@ -98,6 +99,7 @@
 			this.id = this.$route.params.id;
 			this.swiperDetail();
 			this.ajax();
+			// console.log( this.$axios )
 		},
 		methods:{
 			swiperDetail(){//手势滑动
@@ -150,10 +152,16 @@
 			},
 			addShopping(){//加入购物车
 				this.allCount += parseInt( this.oCount.value );
-				// this.oCount.value = this.count;
-				console.log( this.allCount )
+				// console.log( this.allCount );
 				this.shopping = true;
 				this.oShopping.innerHTML = this.allCount;
+				let detail = {
+					count:this.allCount,
+					id:this.$route.params.id,
+					el:this
+				}
+				// console.log( detail )
+				this.$store.dispatch( "getNum",detail )
 			}
 			
 		}

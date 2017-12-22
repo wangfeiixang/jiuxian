@@ -10,10 +10,20 @@ import { MessageBox } from 'mint-ui';
 
 
 const state = {
+	totalNum:0,
+	goods:[],
+
 }
 
 const mutations = {
-
+	getNum(state,ele){//详情页加入购物车
+		// state.totalNum = info;
+		// console.log( state.goods )
+	},
+	addGoods(state,goods){//列表页加入购物车
+		state.goods = goods;
+		// console.log("goods",state.goods)
+	}
 }
 
 const store = new Vuex.Store({
