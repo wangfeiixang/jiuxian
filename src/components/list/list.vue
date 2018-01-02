@@ -22,7 +22,7 @@
 						<p class="label">
 							<span v-for="(item,index,key) in items.label"  :key="item.id" :class="[item==='限时抢购'?'orange':'blue']">{{item}}</span>
 						</p>
-						<p class="sale"><span>￥{{items.price}}</span> <span class="addShopping" @click="addCar(items)">加入购物车</span></p>
+						<p class="sale"><span>￥{{items.price}}</span> <span class="addShopping" @click="addCar(items,items.number)">加入购物车</span></p>
 						<p class="content">
 						<i v-show="items.content[0].type"></i><span>{{items.content[1].count}}</span><span>{{items.content[2].comment}}</span>
 						</p>
@@ -61,7 +61,9 @@
 				priceColor:true,//控制价格排序颜色
 				isMessage:true,//显示弹出加入购物车的信息框
 				goodsList:[],//加入购物车的数据
-				
+				temporary:[],//临时加入购物车的数据
+				goodsId:[]
+			
 			}
 		},
 		computed:{
@@ -156,12 +158,10 @@
 					} else {
 						return b.price-a.price;
 					}
-					// console.log(a.title.length)
 				} )
-				// console.log(this.list);
 				return this.list;
 			},
-			addCar(goods){//加入购物车
+			addCar(goods,id){//加入购物车
 				// console.log('加入购物车')
 				let that = this;
 				let good = {
@@ -172,16 +172,64 @@
 					id:goods.number
 				}
 
+			    if ( this.goodsList.length > 0 ) {
+			        //console.log('执行')
+			        for (let i = 0; i < this.goodsList.length; i++) {
+			            //console.log( this.arr[i].id )
+			            if ( this.goodsList[i].id === id ) {//如果id一样，代表是一个物品，数量增加
+			                this.goodsList[i].count++;
+		                  	//console.log( i );
+		                  	return;
+			            }         
+			        }           
+
+			    }
+
 				this.goodsList.push( good );
 
-				this.getId(good.id);
-
-
-				/* this.showPopBox();
-				this.resolvePromise(); */
-				//传入action
+				/* 传入action */
+				this.$store.dispatch("addGoods",this.goodsList)
+				
+				this.showPopBox();
+				this.resolvePromise(); 
+				
 				
 			},
+			getId(id){//处理商品数量重复
+				//console.log( "永久存储list",this.goodsList,"临时存储list",this.temporary );
+				let list = this.goodsList;
+				let shortList = this.temporary[0];
+				// console.log( shortList.id )
+				for (let i = 0; i < list.length; i++) {
+					//console.log( list[i] ) 
+					if ( list.length>1 ) {
+
+						//console.log('这不是第一次加入购物车')
+						if ( list[i].id === shortList.id ) {
+							// console.log('数量重复',list[i])
+							list[i].count++;
+							list.slice(i);
+							
+							 console.log(i);
+							
+							// return list;
+							// break;
+
+						} else {
+							// break;
+							// console.log('数量没有重复',list[i])
+						}						
+
+					} 
+					
+				}
+
+				console.log( list )
+
+				
+				
+				// this.$store.dispatch("addGoods",{"goods":this.goodsList,"id":id})
+			},			
 			showPopBox(){//判断是否显示弹出框
 				if ( this.isMessage ) {
 					Indicator.open('加入购物车');
@@ -216,36 +264,7 @@
 					console.log( "error" )
 				}); 
 			},
-			getId(id){//处理商品数量重复
-				// console.log('所有商品',this.goodsList)
-				// console.log(id)
-
-				/* this.goodsList.forEach((ele,i)=>{
-					
-					if ( ele.id === id ) {
-						ele.count++;
-						// console.log( ele.id )
-					} else {
-						
-					}
-
-				}) */
-
-				for (let i = 0; i < this.goodsList.length; i++) {
-					if ( this.goodsList[i].id === id ) {
-						this.goodsList[i].count++;
-						 this.goodsList.slice(1,i);
-						// console.log( ele.id )
-					} else {
-						
-					}
-				}
-				
-				this.goodsList.splice(0);
-				
-				console.log( this.goodsList )
-				// this.$store.dispatch("addGoods",good)
-			}
+			
 		},
 		watch:{
 			goodsList:{
@@ -481,7 +500,6 @@
 					float: left;
 					width: 110px;
 					height: 110px;
-					display: inline-block;
 					img{
 						width: 110px;
 						height: 110px;

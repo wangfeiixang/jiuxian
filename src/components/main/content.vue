@@ -75,20 +75,24 @@
 			}
 		},
 		mounted(){
+			let that = this;
 
 			this.axios('content.json',1);
 			clearInterval(this.time.timer);
 
-			 Date.prototype.toLocaleString = function () {
+			Date.prototype.toLocaleString = function () {
+				// console.log( this.getFullYear() )
 				return this.getFullYear()+'-'+(this.getMonth()+1)+'-'+this.getDate()+' '+this.getHours()+':'+this.getMinutes()+':'+this.getSeconds()
 			}
 			
 			//倒计时开启
 			this.time.timer=setInterval(()=>{
 
-					this.time.now = eval("new Date("+ this.getNowFormatDate().replace(/\D+/g,",")+")").getTime();  
-					// alert( this.time.now )
-					this.countDown()
+					//console.log( that.getNowFormatDate(),that.countDown() )
+
+					that.time.now = eval("new Date("+ that.getNowFormatDate().replace(/\D+/g,",")+")").getTime();  
+					 //console.log( that.time.now )
+					that.countDown()
 			},1000)
 
 			this.axios('https://m.jiuxian.com/m_v1/promote/qgajax.do?t='+this.timestamp+'&pagenum='+this.pagenum+'&tabnum='+this.tabnum,3);
@@ -102,7 +106,7 @@
 
 				let dateYear =  new Date().toLocaleString();//截取日期
 					dateYear=dateYear.slice(0,10);
-					// alert( dateYear )
+					// console.log( new Date() )
 
 				let dateHour = new Date().getHours();//小时
 
@@ -230,7 +234,7 @@
 				
 				
 			},
-			getNowFormatDate() {
+			getNowFormatDate() {/*获取当前时间*/
 				var date = new Date();
 				var seperator1 = "-";
 				var seperator2 = ":";

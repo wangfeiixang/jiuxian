@@ -17,12 +17,12 @@ const state = {
 
 const mutations = {
 	getNum(state,ele){//详情页加入购物车
-		// state.totalNum = info;
-		// console.log( state.goods )
+		state.totalNum = ele.count;/* 单个物品数量 */
+		// console.log( state.totalNum );
 	},
 	addGoods(state,goods){//列表页加入购物车
 		state.goods = goods;
-		// console.log("goods",state.goods)
+		// console.log("goods",state.goods);
 	}
 }
 
