@@ -164,6 +164,7 @@
 			addCar(goods,id){//加入购物车
 				// console.log('加入购物车')
 				let that = this;
+				let transition = true;
 				let good = {
 					title:goods.title,
 					price:goods.price,
@@ -172,64 +173,36 @@
 					id:goods.number
 				}
 
+				this.showPopBox();
+				this.resolvePromise(); 
+				// console.log( this.isMessage  )
+
 			    if ( this.goodsList.length > 0 ) {
 			        //console.log('执行')
 			        for (let i = 0; i < this.goodsList.length; i++) {
 			            //console.log( this.arr[i].id )
 			            if ( this.goodsList[i].id === id ) {//如果id一样，代表是一个物品，数量增加
 			                this.goodsList[i].count++;
-		                  	//console.log( i );
-		                  	return;
-			            }         
+		                  	// console.log( "一样的物品",i );
+							transition = false;
+		                  	break;
+							
+			            }       
 			        }           
 
 			    }
 
-				this.goodsList.push( good );
+				if (transition) {
+					this.goodsList.push( good );
+				} 
+
+		    	
+			    // console.log( 'goodsList',this.goodsList );
 
 				/* 传入action */
 				this.$store.dispatch("addGoods",this.goodsList)
 				
-				this.showPopBox();
-				this.resolvePromise(); 
-				
-				
 			},
-			getId(id){//处理商品数量重复
-				//console.log( "永久存储list",this.goodsList,"临时存储list",this.temporary );
-				let list = this.goodsList;
-				let shortList = this.temporary[0];
-				// console.log( shortList.id )
-				for (let i = 0; i < list.length; i++) {
-					//console.log( list[i] ) 
-					if ( list.length>1 ) {
-
-						//console.log('这不是第一次加入购物车')
-						if ( list[i].id === shortList.id ) {
-							// console.log('数量重复',list[i])
-							list[i].count++;
-							list.slice(i);
-							
-							 console.log(i);
-							
-							// return list;
-							// break;
-
-						} else {
-							// break;
-							// console.log('数量没有重复',list[i])
-						}						
-
-					} 
-					
-				}
-
-				console.log( list )
-
-				
-				
-				// this.$store.dispatch("addGoods",{"goods":this.goodsList,"id":id})
-			},			
 			showPopBox(){//判断是否显示弹出框
 				if ( this.isMessage ) {
 					Indicator.open('加入购物车');

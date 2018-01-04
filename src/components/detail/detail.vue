@@ -72,6 +72,8 @@
 <script>
 	import Vue from 'vue'
 	import {mapState,mapGetters,mapActions} from 'vuex'
+	//加入购物车的信息提示框
+	import { Indicator } from 'mint-ui';
 	
 	export default {
 		
@@ -85,11 +87,13 @@
 				shopping:false,//选择i元素
 				count:1,//商品的数量
 				allCount:0,//这是总数量
+				isMessage:true//显示弹出加入购物车的信息框
 
 			}
 		},
 		computed:{
-			// ...mapState({goods:'goods'})
+			...mapState({totalNum:'totalNum'})
+
 		},
 		mounted(){
 			// console.log( this.$route.params.id )
@@ -99,7 +103,12 @@
 			this.id = this.$route.params.id;
 			this.swiperDetail();
 			this.ajax();
-			// console.log( this.$axios )
+			// console.log( this.totalNum )
+			if ( this.totalNum>0 ) {
+				this.shopping = true;
+				this.oShopping.innerHTML = this.totalNum;
+			} 
+
 		},
 		methods:{
 			swiperDetail(){//手势滑动
@@ -151,19 +160,64 @@
 
 			},
 			addShopping(){//加入购物车
+				this.showPopBox();
+				this.resolvePromise(); 
+				console.log( this.isMessage  )
 				this.allCount += parseInt( this.oCount.value );
 				// console.log( this.allCount );
 				this.shopping = true;
-				this.oShopping.innerHTML = this.allCount;
+				// this.oShopping.innerHTML = this.allCount;
 				let detail = {
 					count:this.allCount,
 					id:this.$route.params.id,
 					el:this
 				}
+
 				// console.log( detail )
 				this.$store.dispatch( "getNum",detail )
-			}
+			},
+			showPopBox(){//判断是否显示弹出框
+				if ( this.isMessage ) {
+					Indicator.open('购物成功');
+				} else {
+					Indicator.close();
+				}
+			},
+			resolvePromise(){//处理异步问题
+				let that = this;
+				let num = 0;
+				let promise = new Promise( (resolve, reject)=>{//使用promise的基本方法
+					let timer = setInterval(()=>{
+						num++;
+						if ( num%2 === 0 ) {
+							// console.log("running")
+							Indicator.close();
+							resolve();
+						}else if(num>2){
+							num = 0;
+							clearInterval(timer);
+						}
+						// console.log( num )
+					},1000)
+
+				});
+
+				promise.then(function() {
+					that.isMessage = true;
+					// console.log( "success" )
+				}, function(error) {
+					// that.showPopBox()
+					console.log( "error" )
+				}); 
+			},
 			
+		},
+		watch:{
+			totalNum(_new,_old){
+				// console.log(_new)
+				this.oShopping.innerHTML = _new;
+				
+			}
 		}
 		
 	}

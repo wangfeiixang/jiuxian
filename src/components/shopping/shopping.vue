@@ -38,6 +38,9 @@
 				</li>
 			</ul>
 		</div>
+		<div class="footer">
+			
+		</div>
 	</div>
 </template>
 
@@ -68,7 +71,7 @@
 		width: 100%;
 		height: 100%;
 		// background-color: #f3f5f6;
-		margin-top: 4rem;
+		margin-top: 40px;
 		.car{
 
 			h3{
