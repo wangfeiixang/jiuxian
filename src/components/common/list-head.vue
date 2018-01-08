@@ -48,6 +48,7 @@
 </template>
 
 <script>
+
 	import Vue from 'vue'
 	
 	export default {
@@ -87,6 +88,8 @@
 
 <style lang="scss" scoped>
 
+
+
 	div.header{
 		width: 100%;
 		// position: fixed;
@@ -102,7 +105,6 @@
 		height: 100%;
 		background-color: #de4943;
     	color: #fff;
-	
 		margin: auto;
 		
 		a.left,a.right{

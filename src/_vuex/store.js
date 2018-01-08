@@ -24,7 +24,7 @@ const mutations = {
 		state.detailNum = num;
 		
 		state.totalNum = state.detailNum+state.listNum;
-		// console.log( "详情页总数量",state.totalNum,"detailNum",state.detailNum );
+		console.log( "详情页总数量",ele );
 	},
 	addGoods(state,goods){//列表页加入购物车
 		state.goods = goods;
@@ -44,7 +44,7 @@ const mutations = {
 			state.totalNum = state.detailNum+state.listNum;
 		}
 		
-		// console.log("列表页",state.listNum);
+		console.log("列表页",goods);
 	}
 }
 
