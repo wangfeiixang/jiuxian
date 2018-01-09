@@ -3,30 +3,15 @@
 		<my-head>购物车</my-head>
 		<div class="car">
 			<h3> 
-				<i class="not-check"></i><img src="/static/images/jx.png" > <span>酒仙自营</span>
+				<i @click="changeAll" :class="[isCheck?'select-check':'not-check']"></i><img src="/static/images/jx.png" > <span>酒仙自营</span>
 			</h3>
 			<ul>
-				<li>
+				<li v-for="(items,index,key) in list" :key="items.id" >
 					<a >
-						<i class="not-check"></i><img src="/static/images/list05.jpg" >
+						<i @click="items.isCheck=!items.isCheck" :class="[items.isCheck?'select-check':'not-check']"></i><img :src="items.img" />
 						<div class="content">
-							<p class="title">41度梅赛宝威士忌酒正品洋酒高端威士忌700ML 送木礼盒</p>
-							<p class="price">¥389.00</p>
-							<p class="modify">
-								<span class="modify-box">
-									<span>-</span><input type="text" placeholder="1"><span>+</span>
-								</span>
-								<span class="right">删除</span>
-							</p>
-						</div>
-					</a>
-				</li>
-				<li>
-					<a >
-						<i class="not-check"></i><img src="/static/images/list05.jpg" >
-						<div class="content">
-							<p class="title">41度梅赛宝威士忌酒正品洋酒高端威士忌700ML 送木礼盒</p>
-							<p class="price">¥389.00</p>
+							<p class="title">{{items.title}}</p>
+							<p class="price">{{items.price}}</p>
 							<p class="modify">
 								<span class="modify-box">
 									<span>-</span><input type="text" placeholder="1"><span>+</span>
@@ -39,23 +24,71 @@
 			</ul>
 		</div>
 		<div class="footer">
-			
+			<span class="allCheck">
+				<i @click="changeAll" :class="[isCheck?'select-check':'not-check']"></i> <span>全选</span>
+			</span>
+			<span class="allMoney">
+				<span>合计:</span><span>￥156.00</span>
+			</span>
+			<span id="accont" class="account" >结算(<span id="accontNum">{{totalNum}}</span>)</span>
 		</div>
 	</div>
 </template>
 
 <script>
 	import Vue from 'vue'
+	import {mapState,mapGetters,mapActions} from 'vuex'
 	
 	export default {
 		data(){
 			return{
-
+				// list:list,
+				isCheck:true,//全选按钮
 			}
 		},
 		computed:{
+			...mapState({list:'goods',totalNum:'totalNum'})
+		},
+		mounted(){
+			this.judgeColor(this.isCheck);
 		},
 		methods:{
+			changeAll(){//选择所有
+				this.isCheck = !this.isCheck ;
+				this.$store.dispatch( "checkAll",this.isCheck );
+			},
+			chooseSingle(e){//选择单个
+			},
+			judgeColor(type){
+				let Oaccount  = document.getElementById("accont");
+				let OaccontNum  = document.getElementById("accontNum");
+				let num = OaccontNum.innerHTML;
+				if ( type===true && num>0  ) {
+					Oaccount.style.background="#fd5a5b"
+				} else {
+					Oaccount.style.background = "#d9d9d9";
+				}
+			}
+		},
+		watch:{
+			isCheck(_new,_old){
+				this.judgeColor(_new);
+				console.log("watch")
+			},
+			list:{
+				deep:true,
+				handler(_new,_old){
+					// console.log( _new )
+					for (let i = 0; i < _new.length; i++) {
+						// console.log( _new[i].isCheck );
+						if ( _new[i].isCheck===false ) {
+							this.isCheck = false;
+						} else{
+							this.isCheck = true;
+						}
+					}
+				}
+			},
 			
 		}
 	}
@@ -208,6 +241,66 @@
 						}
 					}
 				}
+			}
+		}
+
+		div.footer{
+			width: 100%;
+			height: 5.1rem;
+			position: absolute;
+			border: 1px solid #bbbbbb;
+			border-left: 0;
+			border-right: 0;
+			left: 0;
+			bottom: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1.4rem;
+
+			span.allCheck,span.allMoney,span.account{
+				flex: 1;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				height: 100%;
+			}
+
+			span.active{
+				background:#fd5a5b;
+			}
+
+			span.account{
+				color: #fff;
+   				background-color: #d9d9d9;
+				font-size: 1.8rem;
+			}
+
+			span.allMoney span:first-child{
+				color: #252525;
+			}
+
+			span.allMoney span:last-child{
+				color: #ff3333;
+			}
+
+			i{
+				width: 25px;
+				height: 25px;
+				margin-right: 8px;
+				float: left;
+				display: inline-block;
+				background: url(/static/images/shopping.png) no-repeat 0 0;
+				background-size: 150px 150px;
+				// margin-top: 3rem;
+			}
+
+			.select-check{
+				background-position: -2px -115px;
+			}
+
+			.not-check{
+				background-position: -27px -115px;
 			}
 		}
 	}

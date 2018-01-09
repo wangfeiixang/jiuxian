@@ -3,7 +3,7 @@ import Vue from 'vue'
 
 const actions = {
     getNum({commit},info){//详情页加入购物车
-        // console.log(info.el)
+        // console.log(info)
          let count = info.count;
          let id = info.id;
          Vue.prototype.$axios.get('list.json')
@@ -13,11 +13,17 @@ const actions = {
                     // console.log(ele.number)
                     if ( ele.number===id ) {
                         ele.count = count;
-                        // console.log( ele )
-                        commit("getNum",ele);
-                    } else {
+                        let good = {
+                            title: ele.title,
+                            price: ele.price,
+                            img: ele.img,
+                            count: ele.count,
+                            id: ele.number
+                        }
+                        console.log( "action",good )
+                        commit("getNum",good);
                         return;
-                    }
+                    } 
                 });
             })
             .catch( (error)=>{
@@ -28,6 +34,10 @@ const actions = {
     addGoods({commit},goods){//列表页加入购物车
         
         commit("addGoods",goods)
+    },
+    checkAll({commit},type){//购物车中全选按钮
+        commit("checkAll",type)
+        // console.log( "action",type )
     }
 	
 }

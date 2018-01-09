@@ -170,6 +170,7 @@
 					price:goods.price,
 					img:goods.img,
 					count:1,
+					isCheck:true,
 					id:goods.number
 				}
 

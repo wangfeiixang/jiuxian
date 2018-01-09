@@ -103,11 +103,12 @@
 			this.id = this.$route.params.id;
 			this.swiperDetail();
 			this.ajax();
-			// console.log( this.totalNum )
-			if ( this.totalNum>0 ) {
-				this.shopping = true;
-				this.oShopping.innerHTML = this.totalNum;
-			} 
+			// console.log( "mounted",this.totalNum )
+			this.showGoodsNum();
+			// if ( this.totalNum>0 ) {
+			// 	this.shopping = true;
+			// 	this.oShopping.innerHTML = this.totalNum;
+			// } 
 
 		},
 		methods:{
@@ -210,13 +211,19 @@
 					console.log( "error" )
 				}); 
 			},
+			showGoodsNum(){
+				if ( this.totalNum>0 ) {
+					this.shopping = true;
+					this.oShopping.innerHTML = this.totalNum;
+				} 
+			}
 			
 		},
 		watch:{
 			totalNum(_new,_old){
-				// console.log(_new)
+				// console.log("watch",_new)
 				this.oShopping.innerHTML = _new;
-				
+				this.showGoodsNum();
 			}
 		}
 		
