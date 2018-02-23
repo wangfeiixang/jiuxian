@@ -23,6 +23,8 @@ const state = {
 
 }
 
+
+
 const mutations = {
 	getNum(state, ele){//详情页加入购物车
 		// state.detailGood.push(ele);//单个商品
@@ -30,31 +32,37 @@ const mutations = {
 		num += ele.count;/* 单个物品数量 */
 		state.detailNum = num;
 		state.totalNum = state.detailNum+state.listNum;
-		//console.log("详情页总数量", ele.id );
-		/* if ( state.detailGood.length>0 ) {
-			for (let i = 0; i < state.detailGood.length; i++) {
-				console.log("id", state.detailGood[i].id, ele.id)
-				if ( state.detailGood[i].id === ele.id ) {
-					
-					state.detailGood[i].count++;
-					state.goodNum = state.detailGood[i].count;
-					console.log("for循环", state.goodNum);
-					
-					state.transition = false;
-					// break;
-				} else{
-					ele.count = ele.count-state.goodNum;
-					console.log("different", ele.count, state.goodNum)
-					state.detailGood.push(ele);// 单个商品 
+		state.detailGood = ele;
+		
+		let listGoods = state.goods;
+		let detailGoods = state.detailGood;
+		let listGoodSwitch = true;
+
+		if (state.goods.length===0) { /* 判断列表页是否加入购物车  */
+			// console.log("detail store中列表页没加入购物车")
+			listGoodSwitch = true;
+		} else {
+
+			for (let i = 0; i < listGoods.length; i++) {
+
+				if ( listGoods[i].id===detailGoods.id ) {
+					// console.log("相同商品",listGoods[i])
+					listGoods[i].count = detailGoods.count;
+					listGoodSwitch = false;
+					break;
 				}
 			}
+			
+			// console.log("detail store中列表页加入购物车")
+		}
+
+		if (listGoodSwitch) {
+			listGoods.push(detailGoods);
+			state.goods = listGoods;
 		} 
-
-		if ( state.transition ) {
-			state.detailGood.push(ele);// 单个商品 
-		}  */
-
-		// console.log( "detail添加商品",state.detailGood  )
+		
+		// console.log( "detail添加商品","列表页",listGoods,"详情页",detailGoods );
+		
 	},
 	addGoods(state,goods){//列表页加入购物车
 		state.goods = goods;
@@ -73,11 +81,41 @@ const mutations = {
 	    }else{
 			state.totalNum = state.detailNum+state.listNum;
 		}
+
+		let listGoods = state.goods;
+		let detailGoods = state.detailGood;
+		let listGoodSwitch = true;
+
+		if (state.detailGood.length===0) { /* 判断详情页物品是否加入购物车  */
+			// console.log("detail store中列表页没加入购物车")
+			listGoodSwitch = true;
+		} else {
+
+			for (let i = 0; i < listGoods.length; i++) {
+
+				if ( listGoods[i].id===detailGoods.id ) {
+					// console.log("相同商品",listGoods[i])
+					listGoods[i].count += detailGoods.count;
+					listGoodSwitch = false;
+					break;
+				}
+			}
+			
+			// console.log("detail store中列表页加入购物车")
+		}
+
+		if (listGoodSwitch) {
+			listGoods.push(detailGoods);
+			state.goods = listGoods;
+		} 
+
+
 		
-		// console.log("列表页",goods);
+		// console.log("列表页",state.goods);
+		console.log( "列表页添加商品","列表页",listGoods,"详情页",detailGoods );
 	},
 	checkAll(state,type){
-		console.log("store", type, state.goods);
+		// console.log("store", type, state.goods);
 		for (let i = 0; i < state.goods.length; i++) {
 			if ( type===true ) {
 				state.goods[i].isCheck = true;
@@ -87,13 +125,25 @@ const mutations = {
 			
 		}
 		
+	},
+	addCount(state,goods){
+		console.log("store购物车",goods)
+	}
+}
+
+const getters = {
+	changeTotalNum(state){
+		console.log("gstters",state.totalNum);
+		return state.totalNum++;
 	}
 }
 
 const store = new Vuex.Store({
 	state,
+	getters,
 	mutations,
-	actions
+	actions,
+	
 })
 
 export default store

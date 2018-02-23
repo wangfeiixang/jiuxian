@@ -18,9 +18,10 @@ const actions = {
                             price: ele.price,
                             img: ele.img,
                             count: ele.count,
-                            id: ele.number
+                            id: ele.number,
+                            isCheck:true,
                         }
-                        console.log( "action",good )
+                        // console.log( "action",good )
                         commit("getNum",good);
                         return;
                     } 
@@ -32,12 +33,15 @@ const actions = {
        
     },
     addGoods({commit},goods){//列表页加入购物车
-        
         commit("addGoods",goods)
     },
     checkAll({commit},type){//购物车中全选按钮
         commit("checkAll",type)
         // console.log( "action",type )
+    },
+    addCount({commit},goods){ //购物车页面数量相加
+        console.log( "actions购物车",goods )
+        commit("addCount",goods)
     }
 	
 }

@@ -14,7 +14,7 @@
 							<p class="price">{{items.price}}</p>
 							<p class="modify">
 								<span class="modify-box">
-									<span>-</span><input type="text" placeholder="1"><span>+</span>
+								<span @click="reduceCount(items)">-</span><input type="text" v-model="changeTotalNum"><span @click="addCount(items)" >+</span>
 								</span>
 								<span class="right">删除</span>
 							</p>
@@ -30,7 +30,8 @@
 			<span class="allMoney">
 				<span>合计:</span><span>￥156.00</span>
 			</span>
-			<span id="accont" class="account" >结算(<span id="accontNum">{{totalNum}}</span>)</span>
+			<span id="accont" class="account" >结算(<span id="accontNum">{{changeTotalNum}}</span>)</span>
+			
 		</div>
 	</div>
 </template>
@@ -42,15 +43,31 @@
 	export default {
 		data(){
 			return{
-				// list:list,
 				isCheck:true,//全选按钮
+				// totalNum:0
 			}
 		},
 		computed:{
-			...mapState({list:'goods',totalNum:'totalNum'})
+			// ...mapState({list:'goods',changeTotalNum:'totalNum'}),
+			list:{ //这是解决v-model与vuex中改变store中某一个变量，用setter解决
+				get: function () {
+					return this.$store.state.goods;
+				}
+			},
+			changeTotalNum:{
+				get: function () {
+                        return this.$store.state.totalNum;
+                    },
+				// setter
+				set: function (newValue) {
+					this.$store.state.totalNum = newValue;
+				}
+			}
 		},
 		mounted(){
 			this.judgeColor(this.isCheck);
+			// this.$data._list = this.list;
+			// console.log( this.$data._list ) 
 		},
 		methods:{
 			changeAll(){//选择所有
@@ -59,7 +76,7 @@
 			},
 			chooseSingle(e){//选择单个
 			},
-			judgeColor(type){
+			judgeColor(type){ //更改结算样式
 				let Oaccount  = document.getElementById("accont");
 				let OaccontNum  = document.getElementById("accontNum");
 				let num = OaccontNum.innerHTML;
@@ -68,12 +85,18 @@
 				} else {
 					Oaccount.style.background = "#d9d9d9";
 				}
+			},
+			addCount(goods){ //数量相加
+				console.log("购物车页面数量相加",goods)
+			},
+			reduceCount(goods){ //数量相减
+				console.log("购物车页面数量相减",goods)
 			}
 		},
 		watch:{
 			isCheck(_new,_old){
 				this.judgeColor(_new);
-				console.log("watch")
+				// console.log("watch")
 			},
 			list:{
 				deep:true,

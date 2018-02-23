@@ -161,8 +161,8 @@
 
 			},
 			addShopping(){//加入购物车
-				this.showPopBox();
-				this.resolvePromise(); 
+				// this.showPopBox();
+				// this.resolvePromise(); 
 				// console.log( this.isMessage  )
 				this.allCount += parseInt( this.oCount.value );
 				// console.log( this.allCount );
