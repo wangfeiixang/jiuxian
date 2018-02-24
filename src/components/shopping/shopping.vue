@@ -8,13 +8,13 @@
 			<ul>
 				<li v-for="(items,index,key) in list" :key="items.id" >
 					<a >
-						<i @click="items.isCheck=!items.isCheck" :class="[items.isCheck?'select-check':'not-check']"></i><img :src="items.img" />
+						<i @click="items.isCheck=!items.isCheck;chooseSingle(items.id,items.isCheck)" :class="[items.isCheck?'select-check':'not-check']"></i><img :src="items.img" />
 						<div class="content">
 							<p class="title">{{items.title}}</p>
 							<p class="price">{{items.price}}</p>
 							<p class="modify">
 								<span class="modify-box">
-								<span @click="reduceCount(items)">-</span><input type="text" v-model="changeTotalNum"><span @click="addCount(items)" >+</span>
+								<span @click="reduceCount(items)">-</span><span id="singleCount">{{items.count}}</span><span @click="addCount(items)" >+</span>
 								</span>
 								<span class="right">删除</span>
 							</p>
@@ -28,9 +28,9 @@
 				<i @click="changeAll" :class="[isCheck?'select-check':'not-check']"></i> <span>全选</span>
 			</span>
 			<span class="allMoney">
-				<span>合计:</span><span>￥156.00</span>
+				<span>合计:</span><span>￥{{totalPrice}}</span>
 			</span>
-			<span id="accont" class="account" >结算(<span id="accontNum">{{changeTotalNum}}</span>)</span>
+			<span id="accont" class="account" >结算(<span id="accontNum">{{totalNum}}</span>)</span>
 			
 		</div>
 	</div>
@@ -48,8 +48,8 @@
 			}
 		},
 		computed:{
-			// ...mapState({list:'goods',changeTotalNum:'totalNum'}),
-			list:{ //这是解决v-model与vuex中改变store中某一个变量，用setter解决
+			...mapState({list:'goods',totalNum:'totalNum',totalPrice:'totalPrice'}),
+			/* list:{ //这是解决v-model与vuex中改变store中某一个变量，用setter解决
 				get: function () {
 					return this.$store.state.goods;
 				}
@@ -62,7 +62,7 @@
 				set: function (newValue) {
 					this.$store.state.totalNum = newValue;
 				}
-			}
+			}, */
 		},
 		mounted(){
 			this.judgeColor(this.isCheck);
@@ -74,13 +74,21 @@
 				this.isCheck = !this.isCheck ;
 				this.$store.dispatch( "checkAll",this.isCheck );
 			},
-			chooseSingle(e){//选择单个
+			chooseSingle(id,boolean){//选择单个
+				console.log("chooseSingle",id,boolean);
+				let type = {
+					id:id,
+					boolean:boolean
+				}
+				this.$store.dispatch( "checkSingle",type );
 			},
 			judgeColor(type){ //更改结算样式
+				
 				let Oaccount  = document.getElementById("accont");
 				let OaccontNum  = document.getElementById("accontNum");
 				let num = OaccontNum.innerHTML;
-				if ( type===true && num>0  ) {
+				// console.log("更改结算样式",num,this.totalNum)
+				if (  this.totalNum>0  ) {
 					Oaccount.style.background="#fd5a5b"
 				} else {
 					Oaccount.style.background = "#d9d9d9";
@@ -98,16 +106,21 @@
 				this.judgeColor(_new);
 				// console.log("watch")
 			},
+			totalNum(_new,_old){
+				 console.log("watch",_new)
+				this.judgeColor(_new);
+			},
 			list:{
 				deep:true,
 				handler(_new,_old){
 					// console.log( _new )
 					for (let i = 0; i < _new.length; i++) {
-						// console.log( _new[i].isCheck );
-						if ( _new[i].isCheck===false ) {
-							this.isCheck = false;
-						} else{
+						// console.log( _new[i] );
+						if ( _new[i].isCheck ) {
 							this.isCheck = true;
+						} else{
+							this.isCheck = false;
+							return;
 						}
 					}
 				}
@@ -242,12 +255,13 @@
 										line-height: 1.6rem;
 										
 									}
+									
 
-									input{
-										width: 3rem;
+									#singleCount{
 										display: inline-block;
 										height: 1.7rem;
-										line-height: 1.5rem;
+										line-height: 1.7rem;
+										background: #fff;
 										text-align: center;
 										border-bottom: 1px solid #d0d0d0;
 										
@@ -327,6 +341,7 @@
 			}
 		}
 	}
+
 
 
 

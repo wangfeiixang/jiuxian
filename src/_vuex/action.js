@@ -40,9 +40,13 @@ const actions = {
         // console.log( "action",type )
     },
     addCount({commit},goods){ //购物车页面数量相加
-        console.log( "actions购物车",goods )
+        // console.log( "actions购物车",goods )
         commit("addCount",goods)
-    }
+    },
+    checkSingle({commit},type){//购物车中单选按钮
+        commit("checkSingle",type)
+        // console.log( "action",type )
+    },
 	
 }
 
