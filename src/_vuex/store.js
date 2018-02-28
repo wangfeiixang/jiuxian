@@ -51,47 +51,7 @@ const mutations = {
 
 			commonFun.totalNum(state.goods);
 		}
-		
-		
-
-		
-
-		// state.detailGood.push(ele);//单个商品
-		// let num = 0;
-		// num += ele.count;/* 单个物品数量 */
-		// state.detailNum = num;
-		// state.totalNum = state.detailNum+state.listNum;
-		// state.detailGood = ele;
-		
-		// let listGoods = state.goods;
-		// let detailGoods = state.detailGood;
-		// let listGoodSwitch = true;
-
-		// if (state.goods.length===0) { /* 判断列表页是否加入购物车  */
-		// 	// console.log("detail store中列表页没加入购物车")
-		// 	listGoodSwitch = true;
-		// } else {
-
-		// 	for (let i = 0; i < listGoods.length; i++) {
-
-		// 		if ( listGoods[i].id===detailGoods.id ) {
-		// 			// console.log("相同商品",listGoods[i])
-		// 			listGoods[i].count = detailGoods.count;
-		// 			listGoodSwitch = false;
-		// 			break;
-		// 		}
-		// 	}
-			
-		// 	// console.log("detail store中列表页加入购物车")
-		// }
-
-		// if (listGoodSwitch) {
-		// 	listGoods.push(detailGoods);
-		// 	state.goods = listGoods;
-		// } 
-		
-		// console.log( "detail添加商品","列表页",listGoods,"详情页",detailGoods );
-		
+	
 	},
 	addGoods(state,goods){//列表页加入购物车
 		state.goods = goods;

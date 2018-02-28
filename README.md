@@ -20,6 +20,7 @@
    > ![Image text](./05.gif)
 9. 购物车页面效果展示如下
    > ![Image text](./07.gif)
+10. 本项目采用vue-cli脚手架，启动项目`npm start`或者`npm run dev`
 
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
