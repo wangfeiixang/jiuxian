@@ -18,7 +18,8 @@
    > ![Image text](./04.gif)
    ------------------------------------------
    > ![Image text](./05.gif)
-
+9. 购物车页面效果展示如下
+   > ![Image text](./07.gif)
 
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
