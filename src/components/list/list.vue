@@ -171,7 +171,8 @@
 					img:goods.img,
 					count:1,
 					isCheck:true,
-					id:goods.number
+					id:goods.number,
+					judge:1
 				}
 
 				this.showPopBox();

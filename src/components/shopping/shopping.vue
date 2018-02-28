@@ -14,7 +14,7 @@
 							<p class="price">{{items.price}}</p>
 							<p class="modify">
 								<span class="modify-box">
-								<span @click="reduceCount(items)">-</span><span id="singleCount">{{items.count}}</span><span @click="addCount(items)" >+</span>
+								<span @click="reduceCount(items.id)">-</span><span id="singleCount">{{items.count}}</span><span @click="addCount(items.id)" >+</span>
 								</span>
 								<span class="right">删除</span>
 							</p>
@@ -67,7 +67,6 @@
 		mounted(){
 			this.judgeColor(this.isCheck);
 			// this.$data._list = this.list;
-			// console.log( this.$data._list ) 
 		},
 		methods:{
 			changeAll(){//选择所有
@@ -75,7 +74,7 @@
 				this.$store.dispatch( "checkAll",this.isCheck );
 			},
 			chooseSingle(id,boolean){//选择单个
-				console.log("chooseSingle",id,boolean);
+				// console.log("chooseSingle",id,boolean);
 				let type = {
 					id:id,
 					boolean:boolean
@@ -94,11 +93,13 @@
 					Oaccount.style.background = "#d9d9d9";
 				}
 			},
-			addCount(goods){ //数量相加
-				console.log("购物车页面数量相加",goods)
+			addCount(id){ //数量相加
+				// console.log("购物车页面数量相加",id);
+				this.$store.dispatch("addCount",id)
 			},
-			reduceCount(goods){ //数量相减
-				console.log("购物车页面数量相减",goods)
+			reduceCount(id){ //数量相减
+				// console.log("购物车页面数量相减",id);
+				this.$store.dispatch("reduceCount",id)
 			}
 		},
 		watch:{
@@ -107,7 +108,7 @@
 				// console.log("watch")
 			},
 			totalNum(_new,_old){
-				 console.log("watch",_new)
+				//  console.log("watch",_new)
 				this.judgeColor(_new);
 			},
 			list:{

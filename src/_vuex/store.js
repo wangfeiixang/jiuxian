@@ -24,6 +24,38 @@ const state = {
 
 const mutations = {
 	getNum(state, ele){//详情页加入购物车
+		console.log("store detail",state.goods,"ele",ele.count,ele.lastCount);
+		state.detailNum = ele.count;
+		if (state.goods.length==0) { //这是先将详情页面的物品加入购物车
+			state.goods.push(ele);
+			commonFun.totalNum(state.goods);
+		} else { //列表页面的物品加入购物车
+			for (let i = 0; i < state.goods.length; i++) {
+				
+				// console.log("列表页面数量",ele.count);
+				if ( ele.id == state.goods[i].id ) { //相同的物品
+
+					if ( state.goods[i].judge && state.goods[i].judge==1 ) {
+						state.goods[i].count += ele.count;
+						state.goods[i].judge =2;
+					} else {
+						state.goods[i].count += ele.lastCount;
+					}
+
+					// console.log( "goods",state.goods[i].count,"ele",ele.count,ele.lastCount );
+
+					break;
+
+				}
+			}
+
+			commonFun.totalNum(state.goods);
+		}
+		
+		
+
+		
+
 		// state.detailGood.push(ele);//单个商品
 		// let num = 0;
 		// num += ele.count;/* 单个物品数量 */
@@ -64,74 +96,54 @@ const mutations = {
 	addGoods(state,goods){//列表页加入购物车
 		state.goods = goods;
 		commonFun.totalNum(state.goods)
-		// console.log("shopping list",goods);
-		
-		
-		// state.goods = goods;
-	// 	let good = state.goods;
-	// 	let num = 0;
-	// //	console.log( good )
-	// 	for (let i = 0; i < good.length; i++) {
-	// 		//console.log( good[i] ) 
-	// 		num += good[i].count;
-	// 	}
-
-	// 	state.listNum = num;
-
-	// 	if ( state.detailNum ===0 ) {
-	// 		state.totalNum = state.listNum ;
-	//     }else{
-	// 		state.totalNum = state.detailNum+state.listNum;
-	// 	}
-
-	// 	let listGoods = state.goods;
-	// 	let detailGoods = state.detailGood;
-	// 	let listGoodSwitch = true;
-
-	// 	if (state.detailGood.length===0) { /* 判断详情页物品是否加入购物车  */
-	// 		// console.log("detail store中列表页没加入购物车")
-	// 		listGoodSwitch = true;
-	// 	} else {
-
-	// 		for (let i = 0; i < listGoods.length; i++) {
-
-	// 			if ( listGoods[i].id===detailGoods.id ) {
-	// 				// console.log("相同商品",listGoods[i])
-	// 				listGoods[i].count += detailGoods.count;
-	// 				listGoodSwitch = false;
-	// 				break;
-	// 			}
-	// 		}
-			
-	// 		// console.log("detail store中列表页加入购物车")
-	// 	}
-
-	// 	if (listGoodSwitch) {
-	// 		listGoods.push(detailGoods);
-
-	// 		state.goods = listGoods;
-	// 	} 
-
-
-		
-	// 	console.log("列表页",state.goods);
-	// 	// console.log( "列表页添加商品","列表页",listGoods,"详情页",detailGoods );
+	
 	},
 	checkAll(state,type){
-		// console.log("store", type, state.goods);
+		// console.log("store checkall",type);
+		let Oaccount  = document.getElementById("accont");
+		let OaccontNum  = document.getElementById("accontNum");
 		for (let i = 0; i < state.goods.length; i++) {
 			if ( type===true ) {
 				state.goods[i].isCheck = true;
+				commonFun.totalNum(state.goods);
 			} else {
 				state.goods[i].isCheck = false;
+				Oaccount.style.background="#fd5a5b";
+				state.totalNum = 0;
+				state.totalPrice = 0;
 			}
 			
 		}
 		
 	},
-	addCount(state,goods){
-		console.log("store购物车",goods)
+	addCount(state,id){ //购物车页面数量相加		
+		for(let i =0;i<state.goods.length;i++){
+			// console.log(state.goods[i]);
+			if ( state.goods[i].id==id ) {
+				state.goods[i].count++;
+				break;
+			} 
+		}
+		commonFun.totalNum(state.goods)
+
+		// console.log("store shopping 购物车相加",id,state.goods);
 	},
+	reduceCount(state,id){ //购物车页面数量相减
+		for(let i =0;i<state.goods.length;i++){
+			// console.log(state.goods[i]);
+			if ( state.goods[i].id==id ) {
+				
+				if ( state.goods[i].count==1 ) {
+					state.goods[i].count = 1;
+				} else {
+					state.goods[i].count--;
+				}
+				break;
+			} 
+		}
+		commonFun.totalNum(state.goods)
+        // console.log( "store shopping 购物车相减",id )
+    },
 	checkSingle(state,type){ //单选按钮
 		// console.log("store radio",type);
 		commonFun.totalNum(state.goods,type)

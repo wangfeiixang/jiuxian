@@ -155,26 +155,30 @@
 			},
 			add(){//商品数量的增加
 				// this.oCount=document.getElementById('count');
+				// this.lastCount = this.count;
 				this.count++;
 				this.oCount.value = this.count;
+				
 				// console.log('这是数量',this.count)
 
 			},
 			addShopping(){//加入购物车
 				// this.showPopBox();
 				// this.resolvePromise(); 
-				// console.log( this.isMessage  )
+				let count = 0; //上一次总数量
 				this.allCount += parseInt( this.oCount.value );
-				// console.log( this.allCount );
+				count = parseInt( this.oCount.value );
+				// console.log( "detail 加入购物车总数量",this.allCount,"上一次总数量",count );
 				this.shopping = true;
 				// this.oShopping.innerHTML = this.allCount;
 				let detail = {
 					count:this.allCount,
+					lastCount:count,
 					id:this.$route.params.id,
 					el:this
 				}
 
-				// console.log( detail )
+				// console.log( "detail goods",detail )
 				this.$store.dispatch( "getNum",detail )
 			},
 			showPopBox(){//判断是否显示弹出框
@@ -221,7 +225,7 @@
 		},
 		watch:{
 			totalNum(_new,_old){
-				// console.log("watch",_new)
+				// console.log("watch"	,_new)
 				this.oShopping.innerHTML = _new;
 				this.showGoodsNum();
 			}
