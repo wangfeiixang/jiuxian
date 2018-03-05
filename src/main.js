@@ -58,9 +58,15 @@ import axios from 'axios'
 axios.defaults.timeout = 5000;    //响应时间
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';           
 
-//console.log( process.env.NODE_ENV )
+console.log( process.env.NODE_ENV )
 
-axios.defaults.baseURL = 'http://localhost:9092/mock/'; 
+if ( process.env.NODE_ENV=="development" ) { //这是开发环境
+  axios.defaults.baseURL = 'http://localhost:9092/mock/'; 
+} else if( process.env.NODE_ENV=="production" ){  //这是生产环境，线上环境
+  axios.defaults.baseURL = '../mock/'; 
+}
+
+
 
 Vue.config.productionTip = false;
 
