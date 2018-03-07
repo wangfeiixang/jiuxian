@@ -7,6 +7,8 @@ import actions from './action'
 //引用mint
 import { MessageBox } from 'mint-ui';
 
+import VuexPersistence from 'vuex-persist'
+
 
 
 const state = {
@@ -161,12 +163,16 @@ const getters = {
 	}
 }
 
+const vuexLocal = new VuexPersistence({
+    storage: window.localStorage
+})
+
 const store = new Vuex.Store({
 	state,
 	getters,
 	mutations,
 	actions,
-	
+	plugins: [vuexLocal.plugin]
 })
 
 export default store

@@ -62,12 +62,16 @@
 				isMessage:true,//显示弹出加入购物车的信息框
 				goodsList:[],//加入购物车的数据
 				temporary:[],//临时加入购物车的数据
-				goodsId:[]
+				goodsId:[],
+				msg:""
 			
 			}
 		},
 		computed:{
 			//...mapState({goods:'goods'})
+		},
+		created() {
+			this.msg = 'bye'
 		},
 		mounted(){
 			
