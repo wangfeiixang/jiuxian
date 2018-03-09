@@ -1,6 +1,7 @@
 ## wangfeixiang
 
 > 酒仙网vue全家桶
+>>[<font color=#00ffff size=7 face="STCAIYUN">线上预览地址</font>](https://wangfeiixang.github.io/vue-jiuxian/dist/index.html#/main "jiuxian")
 
 1. 使用`mint`组件的下拉加载，无限滚动
 2. 使用`axios`全局配置
@@ -21,6 +22,7 @@
 9. 购物车页面效果展示如下
    > ![Image text](./07.gif)
 10. 本项目采用vue-cli脚手架，依赖安装`npm install`,启动项目`npm start`或者`npm run dev`
+
 
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
