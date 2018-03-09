@@ -63,12 +63,12 @@
 		}
 
 		a.left{
-			background:url(/static/images/headBack.jpg) no-repeat center center;
+			background:url(../../assets/img/headBack.jpg) no-repeat center center;
 			left:10px;
 		}
 
 		a.right{
-			background:url(/static/images/headIcon.png) no-repeat;
+			background:url(../../assets/img/headIcon.png) no-repeat;
 			background-position:-150px 6px;
 			right:10px;
 		}
@@ -98,7 +98,7 @@
 					width: 26px;
 					height: 20px;
 					display: block;
-					background:url(/static/images/headIcon.png) no-repeat;
+					background:url(../../assets/img/headIcon.png) no-repeat;
 					margin: 5px auto 0;
 				}
 				

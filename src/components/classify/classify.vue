@@ -96,7 +96,7 @@
 						height: 36px;
 						display: block;
 						margin: 10px auto;
-						background: url(/static/images/08.png) no-repeat;
+						background: url(../../assets/img/08.png) no-repeat;
 					}
 
 					span{

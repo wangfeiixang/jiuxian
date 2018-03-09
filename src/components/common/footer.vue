@@ -3,19 +3,19 @@
 	<footer>
        <ul>
            <li>
-               <router-link to="/main"><img src="/static/images/01.png" alt=""></router-link>
+               <router-link to="/main"><img src="../../assets/img/01.png" alt=""></router-link>
            </li>
            <li>
-               <router-link to="/classify"><img src="/static/images/02.png" alt=""></router-link>
+               <router-link to="/classify"><img src="../../assets/img/02.png" alt=""></router-link>
            </li>
            <li>
-               <router-link to="/mainPlace"><img src="/static/images/05.png" alt=""></router-link>
+               <router-link to="/mainPlace"><img src="../../assets/img/05.png" alt=""></router-link>
            </li>
            <li>
-               <router-link  to="/shopping"><img src="/static/images/03.png" alt=""></router-link>
+               <router-link  to="/shopping"><img src="../../assets/img/03.png" alt=""></router-link>
            </li>
            <li>
-               <router-link  to="/mine/register"><img src="/static/images/04.png" alt=""></router-link>
+               <router-link  to="/mine/register"><img src="../../assets/img/04.png" alt=""></router-link>
            </li>
        </ul>
     </footer>

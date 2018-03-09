@@ -3,11 +3,11 @@
 		<my-head>商品详情</my-head>
 		<div class="swiper-container swiper-detail">
 			<div class="swiper-wrapper">
-				<div class="swiper-slide"><img src="/static/images/detail01.jpg" ></div>
-				<div class="swiper-slide"><img src="/static/images/detail02.jpg" ></div>
-				<div class="swiper-slide"><img src="/static/images/detail03.jpg" ></div>
-				<div class="swiper-slide"><img src="/static/images/detail04.jpg" ></div>
-				<div class="swiper-slide"><img src="/static/images/detail05.jpg" ></div>
+				<div class="swiper-slide"><img src="../../assets/img/detail01.jpg" ></div>
+				<div class="swiper-slide"><img src="../../assets/img/detail02.jpg" ></div>
+				<div class="swiper-slide"><img src="../../assets/img/detail03.jpg" ></div>
+				<div class="swiper-slide"><img src="../../assets/img/detail04.jpg" ></div>
+				<div class="swiper-slide"><img src="../../assets/img/detail05.jpg" ></div>
 			</div>
 			<!-- Add Pagination -->
 			<div class="swiper-pagination"></div>
@@ -25,9 +25,9 @@
 			<div class="coupon">
 				<span class="get">领券</span>	
 				<span class="img">
-					<img src="/static/images/con_1.png" ><span class="convert">满1212减123</span><img src="/static/images/con_2.png" class="img-padding">
-					<img src="/static/images/con_1.png" ><span class="convert">满1212减123</span><img src="/static/images/con_2.png" class="img-padding">
-					<img src="/static/images/con_1.png" ><span class="convert">满1212减123</span><img src="/static/images/con_2.png" >
+					<img src="../../assets/img/con_1.png" ><span class="convert">满1212减123</span><img src="../../assets/img/con_2.png" class="img-padding">
+					<img src="../../assets/img/con_1.png" ><span class="convert">满1212减123</span><img src="../../assets/img/con_2.png" class="img-padding">
+					<img src="../../assets/img/con_1.png" ><span class="convert">满1212减123</span><img src="../../assets/img/con_2.png" >
 				</span>
 				<span class="right"></span>
 			</div>
@@ -51,17 +51,17 @@
 			</div>
 			<p class="background"></p>	
 			<div class="bigImg">
-				<img src="/static/images/list13.jpg" >
-				<img src="/static/images/list14.jpg" >
-				<img src="/static/images/list15.jpg" >
-				<img src="/static/images/list16.jpg" >
+				<img src="../../assets/img/list13.jpg" >
+				<img src="../../assets/img/list14.jpg" >
+				<img src="../../assets/img/list15.jpg" >
+				<img src="../../assets/img/list16.jpg" >
 			</div>
 		</div>
 		<div class="footer">
 			<ul>
-				<li ><a ><img src="/static/images/list01.png" ></a></li>
-				<li class="border-right"><a ><img src="/static/images/list02.png" ></a></li>
-				<li ><a href="#/shopping"><img src="/static/images/list03.png" ></a><i v-show="shopping" id="shopping"></i></li>
+				<li ><a ><img src="../../assets/img/list01.png" ></a></li>
+				<li class="border-right"><a ><img src="../../assets/img/list02.png" ></a></li>
+				<li ><a href="#/shopping"><img src="../../assets/img/list03.png" ></a><i v-show="shopping" id="shopping"></i></li>
 				<li><a @click="addShopping">加入购物车</a></li>
 				<li><a >立即购买</a></li>
 			</ul>
@@ -359,7 +359,7 @@
 
 				span.right{
 					display: inline-block;
-					background: url(/static/images/catIcon.png) no-repeat 0 0;
+					background: url(../../assets/img/catIcon.png) no-repeat 0 0;
 					background-size: 150px;
 					background-position: -130px -40px;
 					width: 12px;

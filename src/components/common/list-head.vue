@@ -118,7 +118,7 @@
 		}
 
 		a.left{
-			background:url(/static/images/headBack.jpg) no-repeat center center;
+			background:url(../../assets/img/headBack.jpg) no-repeat center center;
 			left:10px;
 		}
 
@@ -155,7 +155,7 @@
 					width: 26px;
 					height: 20px;
 					display: block;
-					background:url(/static/images/headIcon.png) no-repeat;
+					background:url(../../assets/img/headIcon.png) no-repeat;
 					margin: 5px auto 0;
 				}
 				
@@ -198,7 +198,7 @@
 				position: absolute;
 				top: 50%;
 				left: 50%;
-				background: url(/static/images/listIcon.png) no-repeat;
+				background: url(../../assets/img/listIcon.png) no-repeat;
 				background-position: -42px -30px;
 				margin: -25px 0 0 -16px;
 				
@@ -238,7 +238,7 @@
 						display: block;
 						float: right;
 						margin: 14px 0 0 5px;
-						background: url(/static/images/listIcon.png) no-repeat;
+						background: url(../../assets/img/listIcon.png) no-repeat;
 						background-position: -30px -30px;
 					}
 				}

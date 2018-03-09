@@ -36,12 +36,13 @@ exports.cssLoaders = function (options) {
     // Extract CSS when that option is specified
     // (which is the case during production build)
     if (options.extract) {
-      return ExtractTextPlugin.extract({
-        use: loaders,
-        fallback: 'vue-style-loader'
-      })
+        return ExtractTextPlugin.extract({
+          use: loaders,
+          publicPath: '../../', //注意: 此处根据路径, 自动更改,build打包后css中图片路径
+          fallback: 'vue-style-loader'
+        })
     } else {
-      return ['vue-style-loader'].concat(loaders)
+        return ['vue-style-loader'].concat(loaders)
     }
   }
 

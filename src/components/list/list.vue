@@ -302,7 +302,7 @@
 					display: inline-block;
 					vertical-align: top;
     				margin: 16px 0 0 5px;
-					background: url(/static/images/listIcon.png) no-repeat;
+					background: url(../../assets/img/listIcon.png) no-repeat;
     				background-size: 100px 70px;
 				}
 
@@ -333,7 +333,7 @@
 					width: 24px;
 					height: 24px;
 					margin: -3px 0 0px -10px;
-					background: url(/static/images/listIcon.png) no-repeat ;
+					background: url(../../assets/img/listIcon.png) no-repeat ;
 					background-size: 100px 70px;
 					background-position: 0 -45px;
 				}
@@ -439,7 +439,7 @@
 					width: 38px;
 					height: 13px;
 					margin-right: 10px;
-					background: url(/static/images/listIcon.png) no-repeat;
+					background: url(../../assets/img/listIcon.png) no-repeat;
 					background-size: 100px 70px;
 					background-position: -62px -15px;
 				}
@@ -547,7 +547,7 @@
 							width: 38px;
 							height: 13px;
 							margin-right: 10px;
-							background: url(/static/images/listIcon.png) no-repeat;
+							background: url(../../assets/img/listIcon.png) no-repeat;
     						background-size: 100px 70px;
 							background-position: -62px -15px;
 						}

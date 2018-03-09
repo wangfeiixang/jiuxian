@@ -19,8 +19,8 @@
 			<h3>掌上秒拍</h3>
 			<p id="time">距开始
 				<span v-show="timeShow">
-					<span class="hours"></span>:<span class="minutes"></span>:
-					<span class="seconds"></span>
+					<span class="hours">{{time.hour}}</span>:<span class="minutes">{{time.minute}}</span>:
+					<span class="seconds">{{time.second}}</span>
 				</span>
 				
 			</p>
@@ -87,12 +87,10 @@
 			
 			//倒计时开启
 			this.time.timer=setInterval(()=>{
-
-					//console.log( that.getNowFormatDate(),that.countDown() )
-
-					that.time.now = eval("new Date("+ that.getNowFormatDate().replace(/\D+/g,",")+")").getTime();  
-					 //console.log( that.time.now )
-					that.countDown()
+				let transformDate = that.getNowFormatDate()
+				that.time.now = eval("new Date("+transformDate.replace(/\D+/g,",")+")").getTime();  
+				//  console.log( "开始时间格式",that.getNowFormatDate(),that.time.now )
+				that.countDown()
 			},1000)
 
 			this.axios('https://m.jiuxian.com/m_v1/promote/qgajax.do?t='+this.timestamp+'&pagenum='+this.pagenum+'&tabnum='+this.tabnum,3);
@@ -104,10 +102,8 @@
 		methods:{
 			countDown(){//倒计时
 
-				let dateYear =  new Date().toLocaleString();//截取日期
-					dateYear=dateYear.slice(0,10);
-					// console.log( new Date() )
-
+				let dateYear =  this.getNowFormatDate(1);//截取日期
+					// console.log( dateYear,dateYear )
 				let dateHour = new Date().getHours();//小时
 
 					if ( dateHour<=16 ) {
@@ -136,14 +132,9 @@
 					// dateSeconds = dateSeconds>10?dateSeconds:"0"+dateSeconds;
 
 				let dateTime = dateYear+" "+dateHour+":"+dateMinute+":"+dateSeconds;//拼接字符串时间
-				// let endDate = new Date(dateTime).getTime(); 
 				//eval("new Date("+ dateTime.replace(/\D+/g,",")+")").getTime() 兼容苹果手机
-				let endDate = eval("new Date("+ dateTime.replace(/\D+/g,",")+")").getTime(); 
-				let endTime = document.getElementById("time");
-				let hours = document.getElementsByClassName("hours")[0];
-				let minutes = document.getElementsByClassName("minutes")[0];
-				let seconds = document.getElementsByClassName("seconds")[0];
-				// console.log( dateTime )
+				let endDate = eval("new Date("+dateTime.replace(/\D+/g,",")+")").getTime(); 
+				// console.log( "结束时间格式",dateTime,"结束时间",endDate )
 
 				if ( endDate < this.time.now ) {//判断活动是否结束
 					this.timeShow = false;
@@ -160,11 +151,6 @@
 					this.time.hour=this.time.hour<10?"0"+this.time.hour:this.time.hour;
 					this.time.minute = this.time.minute<10?"0"+this.time.minute:this.time.minute;
 					this.time.second = this.time.second<10?"0"+this.time.second:this.time.second;
-					
-					// console.log( this.time.hour,this.time.minute,this.time.second )
-					hours.innerHTML = this.time.hour;
-					minutes.innerHTML = this.time.minute;
-					seconds.innerHTML = this.time.second;
 					
 					// console.log( "天数"+this.time.day+"小时:"+this.time.hour+"分钟:"+this.time.minute+"秒:"+this.time.second )
 				}
@@ -234,23 +220,31 @@
 				
 				
 			},
-			getNowFormatDate() {/*获取当前时间*/
+			getNowFormatDate(type) {  //时间格式化
 				var date = new Date();
 				var seperator1 = "-";
 				var seperator2 = ":";
 				var month = date.getMonth() + 1;
 				var strDate = date.getDate();
 
-				if (month >= 1 && month <= 9) {
+				/* if (month >= 1 && month <= 9) {
 					month = "0" + month;
 				}
 
 				if (strDate >= 0 && strDate <= 9) {
 					strDate = "0" + strDate;
-				}
-				var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
+				} */
+
+				var currentdate = "";
+
+				if (type==1) {  //获取结束时间日期
+					currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate;
+				} else { //获取当前时间
+					currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate
 						+ " " + date.getHours() + seperator2 + date.getMinutes()
 						+ seperator2 + date.getSeconds();
+				}
+				
 				return currentdate;
 			}
 		},

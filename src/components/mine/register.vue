@@ -251,11 +251,12 @@
 			padding: 25px 8% 0;
 			width: 100%;
 			height: 100%;
+			margin-top: 5rem;
 			i.error{
 				width: 15px;
 				height: 15px;
 				display: inline-block;
-				background: url(/static/images/loginIcon.png) no-repeat;
+				background: url(../../assets/img/loginIcon.png) no-repeat;
 				
 			}
 			.phone{
@@ -276,7 +277,7 @@
 					display:inline-block;
 					width: 20px;
     				height: 20px;
-					background: url(/static/images/loginIcon.png) no-repeat;
+					background: url(../../assets/img/loginIcon.png) no-repeat;
 					background-position: -138px -34px;
 					left: 10px;
 					top:10px;
@@ -379,7 +380,7 @@
 					position: absolute;
 					width: 20px;
     				height: 20px;
-					background: url(/static/images/loginIcon.png) no-repeat;
+					background: url(../../assets/img/loginIcon.png) no-repeat;
 					background-position: -72px -34px;
 					left: 10px;
 					top:7px;

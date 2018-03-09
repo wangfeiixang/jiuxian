@@ -4,13 +4,38 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
+//引入全局axios配置
+import axios from 'axios'
+axios.defaults.timeout = 5000;    //响应时间
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';           
+
+console.log( process.env.NODE_ENV )
+let errorImg = "";
+let loadingImg = "";
+
+if ( process.env.NODE_ENV=="development" ) { //这是开发环境
+  axios.defaults.baseURL = 'http://localhost:9092/mock/'; 
+  errorImg = "/static/images/lazy.png";
+  loadingImg = "/static/images/lazy.png";
+} else if( process.env.NODE_ENV=="production" ){  //这是生产环境，线上环境
+  axios.defaults.baseURL = '../mock/'; 
+  errorImg = "./static/images/lazy.png";
+  loadingImg = "./static/images/lazy.png";
+}
+
+Vue.config.productionTip = false;
+
+Vue.prototype.$axios = axios;
+
+// console.log( Vue.prototype.$axios  )
+
 // import VueLazyload
 import VueLazyload from 'vue-lazyload'
 //use custom directive
 Vue.use(VueLazyload, {
   preLoad: 1.3,
-  error: '/static/images/lazy.png',
-  loading: '/static/images/lazy.png',
+  error:errorImg,
+  loading: loadingImg,
   attempt: 1,
   // listenEvents: [ 'touchmove','scroll', 'mousewheel','wheel' ]
 })
@@ -53,26 +78,7 @@ Object.keys(plug).forEach(key => {
     Vue.filter(key, plug[key])
 })
 
-//引入全局axios配置
-import axios from 'axios'
-axios.defaults.timeout = 5000;    //响应时间
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';           
 
-console.log( process.env.NODE_ENV )
-
-if ( process.env.NODE_ENV=="development" ) { //这是开发环境
-  axios.defaults.baseURL = 'http://localhost:9092/mock/'; 
-} else if( process.env.NODE_ENV=="production" ){  //这是生产环境，线上环境
-  axios.defaults.baseURL = '../mock/'; 
-}
-
-
-
-Vue.config.productionTip = false;
-
-Vue.prototype.$axios = axios;
-
-// console.log( Vue.prototype.$axios  )
 
 /* eslint-disable no-new */
 new Vue({

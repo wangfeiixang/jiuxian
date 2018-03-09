@@ -3,7 +3,7 @@
 		<my-head>购物车</my-head>
 		<div class="car">
 			<h3> 
-				<i @click="changeAll" :class="[isCheck?'select-check':'not-check']"></i><img src="/static/images/jx.png" > <span>酒仙自营</span>
+				<i @click="changeAll" :class="[isCheck?'select-check':'not-check']"></i><img src="../../assets/img/jx.png" > <span>酒仙自营</span>
 			</h3>
 			<ul>
 				<li v-for="(items,index,key) in list" :key="items.id" >
@@ -157,7 +157,7 @@
 					height: 25px;
 					margin-right: 8px;
 					display: inline-block;
-					background: url(/static/images/shopping.png) no-repeat 0 0;
+					background: url(../../assets/img/shopping.png) no-repeat 0 0;
 					background-size: 150px 150px;
 				}
 
@@ -200,7 +200,7 @@
 							margin-right: 8px;
 							float: left;
 							display: inline-block;
-							background: url(/static/images/shopping.png) no-repeat 0 0;
+							background: url(../../assets/img/shopping.png) no-repeat 0 0;
 							background-size: 150px 150px;
 							margin-top: 3rem;
 						}
@@ -328,7 +328,7 @@
 				margin-right: 8px;
 				float: left;
 				display: inline-block;
-				background: url(/static/images/shopping.png) no-repeat 0 0;
+				background: url(../../assets/img/shopping.png) no-repeat 0 0;
 				background-size: 150px 150px;
 				// margin-top: 3rem;
 			}
