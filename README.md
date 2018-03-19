@@ -22,6 +22,7 @@
 9. 购物车页面效果展示如下
    > ![Image text](./07.gif)
 10. 本项目采用vue-cli脚手架，依赖安装`npm install`,启动项目`npm start`或者`npm run dev`
+11. 引用插件`vuex-persist`实现localstorage缓存，解决手动刷新数据丢失问题
 
 
 
